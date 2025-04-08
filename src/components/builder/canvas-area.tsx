@@ -5,7 +5,7 @@ import { ChartElement } from "@/types/chart";
 import { ChartNode } from "./chart-node";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Trash2, ZoomIn, ZoomOut, Maximize } from "lucide-react";
-import { calculateDefaultPosition, generateId } from "@/lib/utils";
+import { generateId } from "@/lib/utils";
 import { chartTemplates } from "@/data/chart-templates";
 import { Separator } from "@/components/ui/separator";
 
@@ -23,7 +23,7 @@ export function CanvasArea({
   onUpdateChart,
 }: CanvasAreaProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
-  const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
+  const [, setCanvasSize] = useState({ width: 0, height: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(100);
@@ -118,7 +118,7 @@ export function CanvasArea({
       // 查找拖拽的图表类型对应的模板
       const chartTemplate = chartTemplates.find((t) => t.type === chartType);
       if (chartTemplate) {
-        // 创建新图表并传递给父组件
+        // 创建新图表并传递给父组件 - 使用深克隆方式
         const newChart: ChartElement = {
           id: generateId(),
           type: chartTemplate.type,
@@ -129,8 +129,8 @@ export function CanvasArea({
             width: 400,
             height: 300,
           },
-          options: { ...chartTemplate.defaultOptions },
-          data: { ...chartTemplate.defaultData },
+          options: JSON.parse(JSON.stringify(chartTemplate.defaultOptions)),
+          data: JSON.parse(JSON.stringify(chartTemplate.defaultData)),
         };
         
         // 调用父组件传递的添加图表方法

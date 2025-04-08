@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
-import { ComponentPanel } from "./component-panel";
-import { CanvasArea } from "./canvas-area";
-import { ConfigPanel } from "./config-panel";
+import { ComponentPanel } from "@/components/builder/component-panel";
+import { CanvasArea } from "@/components/builder/canvas-area";
+import { ConfigPanel } from "@/components/builder/config-panel";
 import { ModernCodeViewer } from "../code/modern-code-viewer";
 import { ChartElement } from "@/types/chart";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Settings2, Code } from "lucide-react";
 
 export function Builder() {

@@ -1,11 +1,10 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { chartTemplates } from "@/data/chart-templates";
 import { ChartElement, ChartTemplate } from "@/types/chart";
 import { calculateDefaultPosition, generateId } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
 import {
   BarChart3,
   LineChart,
@@ -37,14 +36,14 @@ export function ComponentPanel({ onAddChart }: ComponentPanelProps) {
   };
 
   const handleChartClick = (chartTemplate: ChartTemplate) => {
-    // 创建一个新的图表元素
+    // 创建一个新的图表元素 - 使用深克隆方式
     const newChart: ChartElement = {
       id: generateId(),
       type: chartTemplate.type,
       title: chartTemplate.title,
       position: calculateDefaultPosition(800, 600), // 使用默认的画布尺寸
-      options: { ...chartTemplate.defaultOptions },
-      data: { ...chartTemplate.defaultData },
+      options: JSON.parse(JSON.stringify(chartTemplate.defaultOptions)),
+      data: JSON.parse(JSON.stringify(chartTemplate.defaultData)),
     };
 
     onAddChart(newChart);

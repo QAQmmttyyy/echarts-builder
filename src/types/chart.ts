@@ -31,8 +31,8 @@ export interface ChartElement {
   type: ChartType;
   title: string;
   position: ChartPosition;
-  options: any; // ECharts 配置项
-  data: any; // 图表数据
+  options: Record<string, unknown>; // ECharts 配置项
+  data: unknown; // 图表数据可能是数组或对象
 }
 
 // 支持拖放的预设图表类型
@@ -41,6 +41,6 @@ export interface ChartTemplate {
   title: string;
   icon: string;
   description: string;
-  defaultOptions: any;
-  defaultData: any;
+  defaultOptions: Record<string, unknown>;
+  defaultData: unknown;
 } 

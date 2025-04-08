@@ -2,13 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { ChartElement } from "@/types/chart";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Settings2, Database, Paintbrush, Type, Move, BoxSelect, Maximize, Layers } from "lucide-react";
+import { Settings2, Database, Paintbrush, Type, Maximize, Layers } from "lucide-react";
 
 interface ConfigPanelProps {
   selectedChart: ChartElement | null;
@@ -35,16 +33,17 @@ export function ConfigPanel({ selectedChart, onUpdateChart }: ConfigPanelProps) 
   const handleTitleUpdate = () => {
     if (selectedChart) {
       // 更新标题
+      const chartOptions = JSON.parse(JSON.stringify(selectedChart.options));
+      // 如果存在 title 对象则修改，不存在则创建
+      if (!chartOptions.title) {
+        chartOptions.title = {};
+      }
+      chartOptions.title.text = titleInput;
+      
       const updatedChart = {
         ...selectedChart,
         title: titleInput,
-        options: {
-          ...selectedChart.options,
-          title: {
-            ...selectedChart.options.title,
-            text: titleInput,
-          },
-        },
+        options: chartOptions
       };
       onUpdateChart(updatedChart);
     }
@@ -95,7 +94,7 @@ export function ConfigPanel({ selectedChart, onUpdateChart }: ConfigPanelProps) 
       <div className="py-3.5 px-4 border-b bg-card">
         <h2 className="text-base font-semibold">配置面板</h2>
         {selectedChart ? (
-          <p className="text-xs text-muted-foreground mt-1">编辑 "{selectedChart.title}" 属性</p>
+          <p className="text-xs text-muted-foreground mt-1">编辑 &quot;{selectedChart.title}&quot; 属性</p>
         ) : (
           <p className="text-xs text-muted-foreground mt-1">选择一个图表进行配置</p>
         )}
