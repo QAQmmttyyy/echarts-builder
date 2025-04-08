@@ -120,3 +120,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* 画布网格背景 */
+.bg-grid-pattern {
+  background-color: theme('colors.background');
+  background-image: 
+    linear-gradient(to right, theme('colors.border/5') 1px, transparent 1px),
+    linear-gradient(to bottom, theme('colors.border/5') 1px, transparent 1px),
+    linear-gradient(to right, theme('colors.border/10') 10px, transparent 10px),
+    linear-gradient(to bottom, theme('colors.border/10') 10px, transparent 10px);
+  background-size: 20px 20px, 20px 20px, 100px 100px, 100px 100px;
+  background-position: 0 0, 0 0, 0 0, 0 0;
+}
