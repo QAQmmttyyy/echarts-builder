@@ -21,8 +21,13 @@ export const chartTemplates: ChartTemplate[] = [
         {
           data: [120, 200, 150, 80, 70],
           type: "bar",
+          name: "销售额",
         },
       ],
+      legend: {
+        show: true,
+        data: ["销售额"],
+      },
     },
     defaultData: [
       { name: "一月", value: 120 },
@@ -52,8 +57,13 @@ export const chartTemplates: ChartTemplate[] = [
         {
           data: [120, 132, 101, 134, 90],
           type: "line",
+          name: "销售趋势",
         },
       ],
+      legend: {
+        show: true,
+        data: ["销售趋势"],
+      },
     },
     defaultData: [
       { name: "一月", value: 120 },
@@ -85,6 +95,10 @@ export const chartTemplates: ChartTemplate[] = [
           ],
         },
       ],
+      legend: {
+        show: true,
+        data: ["直接访问", "邮件营销", "联盟广告", "视频广告", "搜索引擎"],
+      },
     },
     defaultData: [
       { name: "直接访问", value: 335 },
@@ -108,6 +122,7 @@ export const chartTemplates: ChartTemplate[] = [
       series: [
         {
           type: "scatter",
+          name: "样本数据",
           data: [
             [10, 8.04],
             [8, 6.95],
@@ -123,6 +138,10 @@ export const chartTemplates: ChartTemplate[] = [
           ],
         },
       ],
+      legend: {
+        show: true,
+        data: ["样本数据"],
+      },
     },
     defaultData: [
       { x: 10, y: 8.04 },
@@ -172,6 +191,10 @@ export const chartTemplates: ChartTemplate[] = [
           ],
         },
       ],
+      legend: {
+        show: true,
+        data: ["预算分配", "实际开销"],
+      },
     },
     defaultData: {
       indicator: [
