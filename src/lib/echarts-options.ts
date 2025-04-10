@@ -424,14 +424,32 @@ export function getEChartsOptionByPath(path: string): OptionItem | undefined {
 
 // 获取指定路径下的可用子项
 export function getAvailableChildrenByPath(path: string): { key: string; option: OptionItem }[] {
-  const option = getEChartsOptionByPath(path);
-  
-  if (!option || option.type !== 'object' || !option.children) {
-    return [];
+  if (!path) {
+    // 如果没有路径，返回顶级配置项
+    return Object.entries(EChartsOptions)
+      .map(([key, option]) => ({ key, option }));
   }
   
-  return Object.entries(option.children)
-    .map(([key, childOption]) => ({ key, option: childOption }));
+  const option = getEChartsOptionByPath(path);
+  
+  if (!option) return [];
+  
+  // 对象类型
+  if (option.type === 'object' && option.children) {
+    return Object.entries(option.children)
+      .map(([key, childOption]) => ({ key, option: childOption }));
+  }
+  
+  // 数组类型 - 提供数组项的可用子项
+  if (option.type === 'array' && option.itemType) {
+    // 如果数组项是对象，返回其子项
+    if (option.itemType.type === 'object' && option.itemType.children) {
+      return Object.entries(option.itemType.children)
+        .map(([key, childOption]) => ({ key, option: childOption }));
+    }
+  }
+  
+  return [];
 }
 
 // 生成数组的新项示例

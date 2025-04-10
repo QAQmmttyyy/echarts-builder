@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { 
   Accordion, 
@@ -26,6 +26,19 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { getAvailableChildrenByPath, getEChartsOptionByPath, EChartsOptions } from '@/lib/echarts-options';
+
+// 定义我们需要的类型
+type OptionType = 'string' | 'number' | 'boolean' | 'color' | 'object' | 'array' | 'select';
+
+// 配置项类型定义，与 echarts-options.ts 中的定义匹配
+interface OptionItemType {
+  type: OptionType;
+  default?: any;
+  options?: Array<{value: string; label: string}>;
+  children?: Record<string, any>;
+  itemType?: any;
+}
 
 // 获取值的类型
 function getValueType(value: any): string {
@@ -37,6 +50,9 @@ function getValueType(value: any): string {
   if (typeof value === 'string' && /^#([0-9A-F]{3}){1,2}$/i.test(value)) {
     return 'color';
   }
+  
+  // 我们不能在这里检测 select 类型，因为它依赖于路径信息
+  // select 类型的检测将在 renderEditor 函数中处理
   
   return typeof value;
 }
@@ -104,12 +120,85 @@ export function getEChartsDefaultConfig(key: string): { type: string, value: any
 function AddPropertyDialog({
   onAdd,
   suggestedKeys = [],
+  parentPath = '',
+  triggerButtonText = "添加配置项",
+  inDialog = false
 }: {
   onAdd: (key: string, value: any) => void;
   suggestedKeys?: string[];
+  parentPath?: string;
+  triggerButtonText?: string;
+  inDialog?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [key, setKey] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [availableItems, setAvailableItems] = useState<Array<{key: string; type: string; description?: string}>>([]);
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+  
+  // 加载可用配置项
+  useEffect(() => {
+    // 如果是在已打开的对话框中使用，或者当前对话框已打开
+    if (inDialog || isOpen) {
+      try {
+        // 尝试从 ECharts 选项定义中获取可用子项
+        const children = getAvailableChildrenByPath(parentPath);
+        
+        // 转换为界面显示格式
+        const items = children.map(({ key, option }: { key: string; option: any }) => ({
+          key,
+          type: option.type,
+          description: getTypeDescription(option.type)
+        }));
+        
+        setAvailableItems(items);
+        
+        // 如果有建议键，也添加到可用项中
+        if (suggestedKeys.length > 0) {
+          const extraItems = suggestedKeys
+            .filter(k => !items.some((item: {key: string}) => item.key === k))
+            .map(k => {
+              const { type } = getEChartsDefaultConfig(k);
+              return {
+                key: k,
+                type,
+                description: getTypeDescription(type)
+              };
+            });
+          
+          setAvailableItems([...items, ...extraItems]);
+        }
+      } catch (error) {
+        console.error("加载可用配置项失败", error);
+        // 备用方案：使用建议键
+        if (suggestedKeys.length > 0) {
+          const items = suggestedKeys.map(k => {
+            const { type } = getEChartsDefaultConfig(k);
+            return {
+              key: k,
+              type,
+              description: getTypeDescription(type)
+            };
+          });
+          setAvailableItems(items);
+        }
+      }
+    }
+  }, [isOpen, parentPath, suggestedKeys, inDialog]);
+  
+  // 获取类型的描述
+  const getTypeDescription = (type: string): string => {
+    const typeMap: Record<string, string> = {
+      'string': '文本',
+      'number': '数值',
+      'boolean': '布尔值',
+      'color': '颜色值',
+      'object': '对象',
+      'array': '数组',
+      'select': '选择项'
+    };
+    return typeMap[type] || type;
+  };
   
   const handleAdd = () => {
     if (!key.trim()) return;
@@ -119,9 +208,105 @@ function AddPropertyDialog({
     
     onAdd(key, value);
     setKey("");
-    setIsOpen(false);
+    setSearchTerm("");
+    
+    // 只有在独立对话框模式下才关闭对话框
+    if (!inDialog) {
+      setIsOpen(false);
+    }
   };
   
+  // 过滤可用项
+  const filteredItems = searchTerm
+    ? availableItems.filter(item => 
+        item.key.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.description?.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : availableItems;
+  
+  // 对话框内的内容
+  const dialogContent = (
+    <>
+      <div className="space-y-1.5">
+        <label className="text-xs font-medium">配置项键名</label>
+        <Input
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="搜索配置项..."
+          className="h-8 text-xs"
+          autoComplete="off"
+        />
+        <Input
+          value={key}
+          onChange={(e) => setKey(e.target.value)}
+          placeholder="输入配置项键名"
+          className="h-8 text-xs mt-2"
+          autoComplete="off"
+        />
+      </div>
+      
+      {filteredItems.length > 0 && (
+        <div className="max-h-[250px] overflow-y-auto mt-3">
+          <ScrollArea className="h-full w-full rounded-md border p-2">
+            <div className="space-y-1">
+              {filteredItems.map((item) => (
+                <div
+                  key={item.key}
+                  className={cn(
+                    "flex items-center justify-between p-2 rounded-md cursor-pointer hover:bg-muted",
+                    key === item.key && "bg-muted"
+                  )}
+                  onClick={() => setKey(item.key)}
+                >
+                  <div className="flex items-center">
+                    <span className="text-xs font-medium">{item.key}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className={cn(
+                      "text-xs px-1.5 py-0.5 rounded-full",
+                      item.type === 'object' && "bg-blue-100 text-blue-800",
+                      item.type === 'array' && "bg-green-100 text-green-800",
+                      item.type === 'string' && "bg-purple-100 text-purple-800",
+                      item.type === 'number' && "bg-orange-100 text-orange-800",
+                      item.type === 'boolean' && "bg-yellow-100 text-yellow-800",
+                      item.type === 'color' && "bg-pink-100 text-pink-800",
+                      item.type === 'select' && "bg-indigo-100 text-indigo-800",
+                    )}>
+                      {item.description}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+        </div>
+      )}
+      
+      <p className="text-xs text-muted-foreground mt-3">
+        根据 ECharts 的配置项名称，将自动确定其值类型。例如，添加 "title" 将创建对象类型，而 "series" 将创建数组类型。
+      </p>
+      
+      {inDialog && (
+        <div className="flex justify-end mt-4">
+          <Button 
+            type="submit" 
+            size="sm"
+            onClick={handleAdd}
+            disabled={!key.trim()}
+          >
+            添加
+          </Button>
+        </div>
+      )}
+    </>
+  );
+  
+  // 如果是在父对话框中使用，直接返回内容
+  if (inDialog) {
+    return dialogContent;
+  }
+  
+  // 否则返回带有触发器的对话框
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -131,7 +316,7 @@ function AddPropertyDialog({
           className="h-7 text-xs w-full bg-background/50 hover:bg-background border-dashed"
         >
           <Plus className="h-3.5 w-3.5 mr-1" />
-          添加配置项
+          {triggerButtonText}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
@@ -139,34 +324,7 @@ function AddPropertyDialog({
           <DialogTitle>添加新配置项</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-2">
-          <div className="space-y-1.5">
-            <label className="text-xs font-medium">配置项键名</label>
-            <Input
-              value={key}
-              onChange={(e) => setKey(e.target.value)}
-              placeholder="输入配置项键名"
-              className="h-8 text-xs"
-              autoComplete="off"
-            />
-            {suggestedKeys.length > 0 && (
-              <div className="flex flex-wrap gap-1 mt-1">
-                {suggestedKeys.map((suggestedKey) => (
-                  <Button
-                    key={suggestedKey}
-                    variant="outline"
-                    size="sm"
-                    className="h-6 text-xs"
-                    onClick={() => setKey(suggestedKey)}
-                  >
-                    {suggestedKey}
-                  </Button>
-                ))}
-              </div>
-            )}
-          </div>
-          <p className="text-xs text-muted-foreground">
-            根据 ECharts 的配置项名称，将自动确定其值类型。例如，添加 "title" 将创建对象类型，而 "series" 将创建数组类型。
-          </p>
+          {dialogContent}
         </div>
         <DialogFooter>
           <Button 
@@ -305,13 +463,6 @@ export function ConfigTree({
   };
 
   // 处理添加子项的对话框
-  const openAddChildDialog = useCallback((parentPath: string, suggestions: string[] = []) => {
-    setDialogParentPath(parentPath);
-    setDialogSuggestions(suggestions);
-    setAddDialogOpen(true);
-  }, []);
-
-  // 处理添加子项
   const handleAddChildProperty = useCallback((key: string, value: any) => {
     const newPath = dialogParentPath ? `${dialogParentPath}.${key}` : key;
     onChange(newPath, value);
@@ -327,21 +478,38 @@ export function ConfigTree({
     // 判断是否需要折叠
     const isCollapsible = type === 'object' || type === 'array';
     
+    // 检查是否为 select 类型
+    let effectiveType = type;
+    let selectOptions: Array<{value: string; label: string}> = [];
+    
+    try {
+      const option = getEChartsOptionByPath(itemPath);
+      if (option && option.type === 'select' && option.options) {
+        effectiveType = 'select';
+        selectOptions = option.options;
+      }
+    } catch (error) {
+      console.error("检测 select 类型失败", error);
+    }
+    
     // 配置项的公共头部
     const headerComponent = (
       <ConfigItemHeader
         label={key}
-        type={type}
+        type={effectiveType}
         count={type === 'object' ? Object.keys(value).length : (type === 'array' ? value.length : undefined)}
         onDelete={() => handleDeleteProperty(key)}
         isCollapsible={isCollapsible}
         isCollapsed={isCollapsed}
         onToggle={() => toggleCollapse(key)}
         onAddChild={() => {
-          // 为对象或数组类型打开添加子项对话框
+          // 为对象或数组类型直接打开添加子项对话框
           const pathParts = itemPath.split('.');
           const suggestions = getEChartsOptionSuggestions(pathParts);
-          openAddChildDialog(itemPath, suggestions);
+          // 直接设置状态并打开对话框
+          setDialogParentPath(itemPath);
+          setDialogSuggestions(suggestions);
+          setAddDialogOpen(true);
         }}
         canAddChild={type === 'object' || type === 'array'}
       />
@@ -349,7 +517,7 @@ export function ConfigTree({
     
     let content: React.ReactNode;
     
-    switch (type) {
+    switch (effectiveType) {
       case 'string':
         content = (
           <div className="ml-6">
@@ -391,6 +559,18 @@ export function ConfigTree({
             </Button>
           </div>
         );
+      
+      case 'select':
+        content = (
+          <div className="ml-6">
+            <SelectEditor
+              value={value}
+              options={selectOptions}
+              onChange={(newValue) => handleValueChange(key, newValue)}
+            />
+          </div>
+        );
+        break;
         
       case 'color':
         content = (
@@ -432,6 +612,26 @@ export function ConfigTree({
                     return <BooleanEditor label="值" value={item} onChange={onItemChange} />;
                   case 'color':
                     return <ColorEditor value={item} onChange={onItemChange} />;
+                  case 'select':
+                    // 尝试获取选项信息
+                    try {
+                      const arrayPath = itemPath;
+                      const option = getEChartsOptionByPath(arrayPath);
+                      
+                      if (option && option.itemType && option.itemType.options) {
+                        return (
+                          <SelectEditor
+                            value={item}
+                            options={option.itemType.options}
+                            onChange={onItemChange}
+                          />
+                        );
+                      }
+                    } catch (error) {
+                      console.error("渲染数组内的选择项失败", error);
+                    }
+                    // 降级为字符串编辑器
+                    return <StringEditor value={item} onChange={onItemChange} />;
                   default:
                     return <div>不支持的类型: {itemType}</div>;
                 }
@@ -448,6 +648,17 @@ export function ConfigTree({
                     case 'boolean': return false;
                     case 'object': return {};
                     case 'color': return '#1677ff';
+                    case 'select': 
+                      // 尝试获取第一个选项的值作为默认值
+                      try {
+                        const option = getEChartsOptionByPath(itemPath);
+                        if (option && option.itemType && option.itemType.options && option.itemType.options.length > 0) {
+                          return option.itemType.options[0].value;
+                        }
+                      } catch (error) {
+                        console.error("获取 select 默认值失败", error);
+                      }
+                      return '';
                     default: return '';
                   }
                 }
@@ -465,6 +676,7 @@ export function ConfigTree({
             <div className="mt-1 ml-6">
               <AddPropertyDialog
                 onAdd={(subKey, subValue) => onChange(`${itemPath}.${subKey}`, subValue)}
+                parentPath={itemPath}
               />
             </div>
           );
@@ -487,12 +699,12 @@ export function ConfigTree({
         break;
         
       default:
-        content = <div className="ml-6">不支持的类型: {type}</div>;
+        content = <div className="ml-6">不支持的类型: {effectiveType}</div>;
         break;
     }
     
     // 布尔类型已经单独处理
-    if (type === 'boolean') return content;
+    if (effectiveType === 'boolean') return content;
     
     // 对于可折叠的类型（对象和数组），使用自定义的折叠逻辑
     if (isCollapsible) {
@@ -531,6 +743,7 @@ export function ConfigTree({
           <AddPropertyDialog
             onAdd={handleAddProperty}
             suggestedKeys={suggestedKeys}
+            parentPath={path}
           />
         </div>
       )}
@@ -541,10 +754,12 @@ export function ConfigTree({
           <DialogHeader>
             <DialogTitle>添加子配置项</DialogTitle>
           </DialogHeader>
-          <div className="grid gap-4 py-2">
+          <div className="py-4">
             <AddPropertyDialog
               onAdd={handleAddChildProperty}
               suggestedKeys={dialogSuggestions}
+              parentPath={dialogParentPath}
+              inDialog={true}
             />
           </div>
         </DialogContent>
@@ -555,11 +770,8 @@ export function ConfigTree({
 
 // 获取ECharts选项的建议属性
 function getEChartsOptionSuggestions(pathParts: string[]): string[] {
-  // 导入ECharts选项定义
-  const { EChartsOptions } = require('@/lib/echarts-options');
-  
   // 根据路径获取当前节点的定义
-  let currentNode = EChartsOptions;
+  let currentNode: any = EChartsOptions;
   for (let i = 0; i < pathParts.length; i++) {
     const part = pathParts[i];
     if (part && currentNode.children && currentNode.children[part]) {
