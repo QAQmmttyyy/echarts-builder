@@ -1,0 +1,4485 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ECharts 配置项",
+  "description": "ECharts 完整的配置项 JSON Schema",
+  "type": "object",
+  "properties": {
+    "baseOption": {
+      "$ref": "#/definitions/ECUnitOption",
+      "description": "多个 option 的基础 option"
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ECUnitOption"
+      },
+      "description": "用于时间轴的 option 数组"
+    },
+    "media": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/MediaUnit"
+      },
+      "description": "针对不同屏幕大小的配置"
+    },
+    "timeline": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/TimelineOption"
+        },
+        {
+          "$ref": "#/definitions/TimelineSliderOption"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TimelineOption"
+          }
+        }
+      ],
+      "description": "时间轴组件配置"
+    },
+    "backgroundColor": {
+      "$ref": "#/definitions/ZRColor",
+      "description": "背景色，默认无背景"
+    },
+    "darkMode": {
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "enum": ["auto"]
+        }
+      ],
+      "description": "是否是暗黑模式，auto 时根据背景色自动判断"
+    },
+    "textStyle": {
+      "type": "object",
+      "properties": {
+        "color": { "$ref": "#/definitions/ZRColor" },
+        "fontStyle": { "$ref": "#/definitions/ZRFontStyle" },
+        "fontWeight": { "$ref": "#/definitions/ZRFontWeight" },
+        "fontSize": { "type": ["number", "string"] },
+        "fontFamily": { "type": "string" }
+      },
+      "description": "全局的字体样式"
+    },
+    "useUTC": {
+      "type": "boolean",
+      "description": "是否使用 UTC 时间"
+    },
+    "stateAnimation": {
+      "$ref": "#/definitions/AnimationOption",
+      "description": "状态切换的动画配置"
+    },
+    "animation": {
+      "type": "boolean",
+      "description": "是否开启动画"
+    },
+    "animationThreshold": {
+      "type": "number",
+      "description": "是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画"
+    },
+    "animationDuration": {
+      "oneOf": [
+        { "type": "number" },
+        { "type": "string", "format": "function-string" }
+      ],
+      "description": "初始动画的时长，支持回调函数，可以通过每个数据返回不同的时长实现更戏剧的初始动画效果"
+    },
+    "animationEasing": {
+      "$ref": "#/definitions/ZREasing",
+      "description": "初始动画的缓动效果"
+    },
+    "animationDelay": {
+      "oneOf": [
+        { "type": "number" },
+        { "type": "string", "format": "function-string" }
+      ],
+      "description": "初始动画的延迟，支持回调函数，可以通过每个数据返回不同的延迟时间实现更戏剧的初始动画效果"
+    },
+    "animationDurationUpdate": {
+      "oneOf": [
+        { "type": "number" },
+        { "type": "string", "format": "function-string" }
+      ],
+      "description": "数据更新动画的时长，支持回调函数，可以通过每个数据返回不同的时长实现更戏剧的更新动画效果"
+    },
+    "animationEasingUpdate": {
+      "$ref": "#/definitions/ZREasing",
+      "description": "数据更新动画的缓动效果"
+    },
+    "animationDelayUpdate": {
+      "oneOf": [
+        { "type": "number" },
+        { "type": "string", "format": "function-string" }
+      ],
+      "description": "数据更新动画的延迟，支持回调函数，可以通过每个数据返回不同的延迟时间实现更戏剧的更新动画效果"
+    },
+    "color": {
+      "oneOf": [
+        { "$ref": "#/definitions/ZRColor" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/ZRColor" }
+        }
+      ],
+      "description": "调色盘颜色列表"
+    },
+    "colorLayer": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": { "$ref": "#/definitions/ZRColor" }
+      },
+      "description": "调色盘颜色列表的颜色层级"
+    },
+    "aria": {
+      "$ref": "#/definitions/AriaOption",
+      "description": "无障碍访问配置"
+    },
+    "title": {
+      "oneOf": [
+        { "$ref": "#/definitions/TitleOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/TitleOption" }
+        }
+      ],
+      "description": "标题组件"
+    },
+    "grid": {
+      "oneOf": [
+        { "$ref": "#/definitions/GridOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/GridOption" }
+        }
+      ],
+      "description": "直角坐标系内绘图网格"
+    },
+    "radar": {
+      "oneOf": [
+        { "$ref": "#/definitions/RadarOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/RadarOption" }
+        }
+      ],
+      "description": "雷达图坐标系组件"
+    },
+    "polar": {
+      "oneOf": [
+        { "$ref": "#/definitions/PolarOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/PolarOption" }
+        }
+      ],
+      "description": "极坐标系组件"
+    },
+    "geo": {
+      "oneOf": [
+        { "$ref": "#/definitions/GeoOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/GeoOption" }
+        }
+      ],
+      "description": "地理坐标系组件"
+    },
+    "angleAxis": {
+      "oneOf": [
+        { "$ref": "#/definitions/AngleAxisOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/AngleAxisOption" }
+        }
+      ],
+      "description": "极坐标系的角度轴"
+    },
+    "radiusAxis": {
+      "oneOf": [
+        { "$ref": "#/definitions/RadiusAxisOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/RadiusAxisOption" }
+        }
+      ],
+      "description": "极坐标系的径向轴"
+    },
+    "xAxis": {
+      "oneOf": [
+        { "$ref": "#/definitions/XAXisOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/XAXisOption" }
+        }
+      ],
+      "description": "直角坐标系 grid 中的 x 轴"
+    },
+    "yAxis": {
+      "oneOf": [
+        { "$ref": "#/definitions/YAXisOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/YAXisOption" }
+        }
+      ],
+      "description": "直角坐标系 grid 中的 y 轴"
+    },
+    "singleAxis": {
+      "oneOf": [
+        { "$ref": "#/definitions/SingleAxisOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/SingleAxisOption" }
+        }
+      ],
+      "description": "单轴"
+    },
+    "parallel": {
+      "oneOf": [
+        { "$ref": "#/definitions/ParallelCoordinateSystemOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/ParallelCoordinateSystemOption" }
+        }
+      ],
+      "description": "平行坐标系"
+    },
+    "parallelAxis": {
+      "oneOf": [
+        { "$ref": "#/definitions/ParallelAxisOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/ParallelAxisOption" }
+        }
+      ],
+      "description": "平行坐标系的坐标轴"
+    },
+    "calendar": {
+      "oneOf": [
+        { "$ref": "#/definitions/CalendarOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/CalendarOption" }
+        }
+      ],
+      "description": "日历坐标系组件"
+    },
+    "toolbox": {
+      "oneOf": [
+        { "$ref": "#/definitions/ToolboxOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/ToolboxOption" }
+        }
+      ],
+      "description": "工具栏组件"
+    },
+    "tooltip": {
+      "oneOf": [
+        { "$ref": "#/definitions/TooltipOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/TooltipOption" }
+        }
+      ],
+      "description": "提示框组件"
+    },
+    "axisPointer": {
+      "oneOf": [
+        { "$ref": "#/definitions/AxisPointerOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/AxisPointerOption" }
+        }
+      ],
+      "description": "坐标轴指示器"
+    },
+    "brush": {
+      "oneOf": [
+        { "$ref": "#/definitions/BrushOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/BrushOption" }
+        }
+      ],
+      "description": "区域选择组件"
+    },
+    "legend": {
+      "oneOf": [
+        { "$ref": "#/definitions/LegendOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/LegendOption" }
+        }
+      ],
+      "description": "图例组件"
+    },
+    "dataZoom": {
+      "oneOf": [
+        { "$ref": "#/definitions/DataZoomOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/DataZoomOption" }
+        }
+      ],
+      "description": "区域缩放组件"
+    },
+    "visualMap": {
+      "oneOf": [
+        { "$ref": "#/definitions/VisualMapOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/VisualMapOption" }
+        }
+      ],
+      "description": "视觉映射组件"
+    },
+    "graphic": {
+      "oneOf": [
+        { "$ref": "#/definitions/GraphicComponentOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/GraphicComponentOption" }
+        }
+      ],
+      "description": "自定义图形组件"
+    },
+    "dataset": {
+      "oneOf": [
+        { "$ref": "#/definitions/DatasetOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/DatasetOption" }
+        }
+      ],
+      "description": "数据集组件"
+    },
+    "series": {
+      "oneOf": [
+        { "$ref": "#/definitions/SeriesOption" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/definitions/SeriesOption" }
+        }
+      ],
+      "description": "系列列表"
+    }
+  },
+  "definitions": {
+    "ECUnitOption": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "oneOf": [
+            { "$ref": "#/definitions/TitleOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/TitleOption" }
+            }
+          ],
+          "description": "标题组件"
+        },
+        "grid": {
+          "oneOf": [
+            { "$ref": "#/definitions/GridOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/GridOption" }
+            }
+          ],
+          "description": "直角坐标系内绘图网格"
+        },
+        "radar": {
+          "oneOf": [
+            { "$ref": "#/definitions/RadarOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/RadarOption" }
+            }
+          ],
+          "description": "雷达图坐标系组件"
+        },
+        "polar": {
+          "oneOf": [
+            { "$ref": "#/definitions/PolarOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/PolarOption" }
+            }
+          ],
+          "description": "极坐标系组件"
+        },
+        "geo": {
+          "oneOf": [
+            { "$ref": "#/definitions/GeoOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/GeoOption" }
+            }
+          ],
+          "description": "地理坐标系组件"
+        },
+        "angleAxis": {
+          "oneOf": [
+            { "$ref": "#/definitions/AngleAxisOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/AngleAxisOption" }
+            }
+          ],
+          "description": "极坐标系的角度轴"
+        },
+        "radiusAxis": {
+          "oneOf": [
+            { "$ref": "#/definitions/RadiusAxisOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/RadiusAxisOption" }
+            }
+          ],
+          "description": "极坐标系的径向轴"
+        },
+        "xAxis": {
+          "oneOf": [
+            { "$ref": "#/definitions/XAXisOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/XAXisOption" }
+            }
+          ],
+          "description": "直角坐标系 grid 中的 x 轴"
+        },
+        "yAxis": {
+          "oneOf": [
+            { "$ref": "#/definitions/YAXisOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/YAXisOption" }
+            }
+          ],
+          "description": "直角坐标系 grid 中的 y 轴"
+        },
+        "singleAxis": {
+          "oneOf": [
+            { "$ref": "#/definitions/SingleAxisOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/SingleAxisOption" }
+            }
+          ],
+          "description": "单轴"
+        },
+        "parallel": {
+          "oneOf": [
+            { "$ref": "#/definitions/ParallelCoordinateSystemOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/ParallelCoordinateSystemOption" }
+            }
+          ],
+          "description": "平行坐标系"
+        },
+        "parallelAxis": {
+          "oneOf": [
+            { "$ref": "#/definitions/ParallelAxisOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/ParallelAxisOption" }
+            }
+          ],
+          "description": "平行坐标系中的坐标轴"
+        },
+        "calendar": {
+          "oneOf": [
+            { "$ref": "#/definitions/CalendarOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/CalendarOption" }
+            }
+          ],
+          "description": "日历坐标系组件"
+        },
+        "toolbox": {
+          "oneOf": [
+            { "$ref": "#/definitions/ToolboxOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/ToolboxOption" }
+            }
+          ],
+          "description": "工具栏组件"
+        },
+        "tooltip": {
+          "oneOf": [
+            { "$ref": "#/definitions/TooltipOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/TooltipOption" }
+            }
+          ],
+          "description": "提示框组件"
+        },
+        "axisPointer": {
+          "oneOf": [
+            { "$ref": "#/definitions/AxisPointerOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/AxisPointerOption" }
+            }
+          ],
+          "description": "坐标轴指示器"
+        },
+        "brush": {
+          "oneOf": [
+            { "$ref": "#/definitions/BrushOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/BrushOption" }
+            }
+          ],
+          "description": "区域选择组件"
+        },
+        "legend": {
+          "oneOf": [
+            { "$ref": "#/definitions/LegendOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/LegendOption" }
+            }
+          ],
+          "description": "图例组件"
+        },
+        "dataZoom": {
+          "oneOf": [
+            { "$ref": "#/definitions/DataZoomOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/DataZoomOption" }
+            }
+          ],
+          "description": "区域缩放组件"
+        },
+        "visualMap": {
+          "oneOf": [
+            { "$ref": "#/definitions/VisualMapOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/VisualMapOption" }
+            }
+          ],
+          "description": "视觉映射组件"
+        },
+        "graphic": {
+          "oneOf": [
+            { "$ref": "#/definitions/GraphicComponentOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/GraphicComponentOption" }
+            }
+          ],
+          "description": "原生图形元素组件"
+        },
+        "dataset": {
+          "oneOf": [
+            { "$ref": "#/definitions/DatasetOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/DatasetOption" }
+            }
+          ],
+          "description": "数据集组件"
+        },
+        "series": {
+          "oneOf": [
+            { "$ref": "#/definitions/SeriesOption" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/SeriesOption" }
+            }
+          ],
+          "description": "系列列表"
+        },
+        "color": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/ZRColor" },
+          "description": "调色盘颜色列表"
+        },
+        "backgroundColor": { "$ref": "#/definitions/ZRColor", "description": "全局的背景色" },
+        "textStyle": {
+          "type": "object",
+          "description": "全局的字体样式"
+        },
+        "animation": { "type": "boolean", "description": "是否开启动画" },
+        "animationThreshold": { "type": "number", "description": "是否开启动画的阈值" },
+        "animationDuration": { "type": "number", "description": "初始动画的时长" },
+        "animationEasing": { "$ref": "#/definitions/ZREasing", "description": "初始动画的缓动效果" },
+        "animationDelay": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "初始动画的延迟"
+        },
+        "animationDurationUpdate": { "type": "number", "description": "数据更新动画的时长" },
+        "animationEasingUpdate": { "$ref": "#/definitions/ZREasing", "description": "数据更新动画的缓动效果" },
+        "animationDelayUpdate": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "数据更新动画的延迟"
+        },
+        "aria": { "$ref": "#/definitions/AriaOption", "description": "无障碍访问配置" }
+      },
+      "description": "ECharts 单个图表的完整配置项"
+    },
+    "MediaUnit": {
+      "type": "object",
+      "properties": {
+        "query": { "$ref": "#/definitions/MediaQuery", "description": "查询条件" },
+        "option": { "$ref": "#/definitions/ECUnitOption", "description": "满足查询条件时使用的配置" }
+      },
+      "description": "不同屏幕尺寸下的图表配置单元"
+    },
+    "MediaQuery": {
+      "type": "object",
+      "properties": {
+        "minWidth": { "type": "number", "description": "最小宽度" },
+        "maxWidth": { "type": "number", "description": "最大宽度" },
+        "minHeight": { "type": "number", "description": "最小高度" },
+        "maxHeight": { "type": "number", "description": "最大高度" },
+        "minAspectRatio": { "type": "number", "description": "最小长宽比（width / height）" },
+        "maxAspectRatio": { "type": "number", "description": "最大长宽比（width / height）" }
+      },
+      "description": "媒体查询条件"
+    },
+    "ZRColor": {
+      "oneOf": [
+        { "type": "string", "description": "颜色字符串，如 'red'、'#123456'、'rgba(0,0,0,0.5)'、'rgb(128, 128, 128)'、'rgba(128, 128, 128, 0.5)'" },
+        { "$ref": "#/definitions/LinearGradientObject", "description": "线性渐变" },
+        { "$ref": "#/definitions/RadialGradientObject", "description": "径向渐变" },
+        { "$ref": "#/definitions/PatternObject", "description": "图案" }
+      ],
+      "description": "颜色值，可以是字符串，线性渐变，径向渐变，纹理填充"
+    },
+    "LinearGradientObject": {
+      "type": "object",
+      "properties": {
+        "type": { "enum": ["linear"] },
+        "x": { "type": "number", "description": "渐变起点的 x 坐标，取值范围[0,1]" },
+        "y": { "type": "number", "description": "渐变起点的 y 坐标，取值范围[0,1]" },
+        "x2": { "type": "number", "description": "渐变终点的 x 坐标，取值范围[0,1]" },
+        "y2": { "type": "number", "description": "渐变终点的 y 坐标，取值范围[0,1]" },
+        "colorStops": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "offset": { "type": "number", "description": "渐变的位置，范围[0,1]" },
+              "color": { "type": "string", "description": "渐变的颜色" }
+            }
+          },
+          "description": "渐变色的颜色节点"
+        },
+        "global": { "type": "boolean", "description": "缺省为 false，使用 `opt.x`, `opt.x2`, `opt.y`, `opt.y2` 来定位渐变的起止位置，相对于对象，如果是 true，则使用全局坐标系" }
+      },
+      "required": ["type", "colorStops"],
+      "description": "线性渐变配置对象"
+    },
+    "RadialGradientObject": {
+      "type": "object",
+      "properties": {
+        "type": { "enum": ["radial"] },
+        "x": { "type": "number", "description": "渐变中心点的 x 坐标，取值范围[0,1]" },
+        "y": { "type": "number", "description": "渐变中心点的 y 坐标，取值范围[0,1]" },
+        "r": { "type": "number", "description": "渐变的半径，取值范围[0,1]" },
+        "colorStops": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "offset": { "type": "number", "description": "渐变的位置，范围[0,1]" },
+              "color": { "type": "string", "description": "渐变的颜色" }
+            }
+          },
+          "description": "渐变色的颜色节点"
+        },
+        "global": { "type": "boolean", "description": "缺省为 false，使用 `opt.x`, `opt.y`, `opt.r` 来定位渐变的起止位置，相对于对象，如果是 true，则使用全局坐标系" }
+      },
+      "required": ["type", "colorStops"],
+      "description": "径向渐变配置对象"
+    },
+    "PatternObject": {
+      "type": "object",
+      "properties": {
+        "type": { "enum": ["pattern"] },
+        "image": {
+          "oneOf": [
+            { "type": "string", "description": "图像的 URL，支持 dataURI" },
+            { "type": "object", "description": "Image 对象" }
+          ],
+          "description": "图案的图像，支持符合 HTML 规范的类型，如 Image, Canvas, Video"
+        },
+        "repeat": {
+          "enum": ["repeat", "repeat-x", "repeat-y", "no-repeat"],
+          "description": "图案的重复方式"
+        },
+        "x": { "type": "number", "description": "图案起始位置的 x 坐标，默认 0" },
+        "y": { "type": "number", "description": "图案起始位置的 y 坐标，默认 0" },
+        "width": { "type": "number", "description": "图案的宽度（仅当重复方式需要裁剪才生效）" },
+        "height": { "type": "number", "description": "图案的高度（仅当重复方式需要裁剪才生效）" }
+      },
+      "required": ["type", "image"],
+      "description": "图案填充配置对象"
+    },
+    "ZRFontStyle": {
+      "enum": ["normal", "italic", "oblique"],
+      "description": "字体风格"
+    },
+    "ZRFontWeight": {
+      "oneOf": [
+        {
+          "enum": ["normal", "bold", "bolder", "lighter"]
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "description": "字体粗细"
+    },
+    "ZREasing": {
+      "enum": [
+        "linear",
+        "quadraticIn", "quadraticOut", "quadraticInOut",
+        "cubicIn", "cubicOut", "cubicInOut",
+        "quarticIn", "quarticOut", "quarticInOut",
+        "quinticIn", "quinticOut", "quinticInOut",
+        "sinusoidalIn", "sinusoidalOut", "sinusoidalInOut",
+        "exponentialIn", "exponentialOut", "exponentialInOut",
+        "circularIn", "circularOut", "circularInOut",
+        "elasticIn", "elasticOut", "elasticInOut",
+        "backIn", "backOut", "backInOut",
+        "bounceIn", "bounceOut", "bounceInOut"
+      ],
+      "description": "动画缓动效果"
+    },
+    "AnimationOption": {
+      "type": "object",
+      "properties": {
+        "duration": { "type": "number", "description": "动画时长，单位 ms" },
+        "easing": { "$ref": "#/definitions/ZREasing", "description": "动画缓动效果" },
+        "delay": { "type": "number", "description": "动画延迟，单位 ms" }
+      },
+      "description": "动画配置选项"
+    },
+    "ZRLineType": {
+      "oneOf": [
+        {
+          "enum": ["solid", "dotted", "dashed"]
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      ],
+      "description": "线的类型，可以是字符串或数字数组指定虚线样式，如 [5, 10]"
+    },
+    "TextCommonOption": {
+      "type": "object",
+      "properties": {
+        "color": { "type": "string", "description": "文字颜色" },
+        "fontStyle": { "$ref": "#/definitions/ZRFontStyle", "description": "字体风格" },
+        "fontWeight": { "$ref": "#/definitions/ZRFontWeight", "description": "字体粗细" },
+        "fontFamily": { "type": "string", "description": "字体系列" },
+        "fontSize": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "字体大小"
+        },
+        "align": {
+          "enum": ["left", "center", "right"],
+          "description": "文字水平对齐方式"
+        },
+        "verticalAlign": {
+          "enum": ["top", "middle", "bottom"],
+          "description": "文字垂直对齐方式"
+        },
+        "baseline": {
+          "enum": ["top", "middle", "bottom"],
+          "description": "文字基线对齐方式"
+        },
+        "opacity": { "type": "number", "description": "文字透明度" },
+        "lineHeight": { "type": "number", "description": "行高" },
+        "backgroundColor": {
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "object",
+              "properties": {
+                "image": {
+                  "oneOf": [
+                    { "type": "string" },
+                    { "type": "object" }
+                  ],
+                  "description": "图像，支持URL或Image对象"
+                }
+              }
+            }
+          ],
+          "description": "文字背景色"
+        },
+        "borderColor": { "type": "string", "description": "文字边框颜色" },
+        "borderWidth": { "type": "number", "description": "文字边框宽度" },
+        "borderType": { "$ref": "#/definitions/ZRLineType", "description": "文字边框类型" },
+        "borderDashOffset": { "type": "number", "description": "虚线偏移量，使用 borderType 指定 dash array 时生效" },
+        "borderRadius": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 1,
+              "maxItems": 4
+            }
+          ],
+          "description": "文字圆角半径"
+        },
+        "padding": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 1,
+              "maxItems": 4
+            }
+          ],
+          "description": "文字内边距"
+        },
+        "width": { "type": "number", "description": "文字块宽度" },
+        "height": { "type": "number", "description": "文字块高度" },
+        "textBorderColor": { "type": "string", "description": "文字描边颜色" },
+        "textBorderWidth": { "type": "number", "description": "文字描边宽度" },
+        "textBorderType": { "$ref": "#/definitions/ZRLineType", "description": "文字描边类型" },
+        "textBorderDashOffset": { "type": "number", "description": "虚线偏移量，使用 textBorderType 指定 dash array 时生效" },
+        "textShadowBlur": { "type": "number", "description": "文字阴影模糊大小" },
+        "textShadowColor": { "type": "string", "description": "文字阴影颜色" },
+        "textShadowOffsetX": { "type": "number", "description": "文字阴影 X 偏移" },
+        "textShadowOffsetY": { "type": "number", "description": "文字阴影 Y 偏移" },
+        "tag": { "type": "string", "description": "文本标签，用于在富文本中构建多个图形元素" }
+      },
+      "description": "文本通用选项"
+    },
+    "TitleTextStyleOption": {
+      "allOf": [
+        { "$ref": "#/definitions/TextCommonOption" },
+        {
+          "type": "object",
+      "properties": {
+            "width": { "type": "number", "description": "文本显示宽度" },
+            "height": { "type": "number", "description": "文本显示高度" },
+            "overflow": {
+              "enum": ["truncate", "break", "breakAll"],
+              "description": "文本超出宽度时的处理方式：'truncate'截断，'break'换行，'breakAll'所有字符间都可换行"
+            },
+            "ellipsis": { "type": "string", "description": "在overflow配置为'truncate'的时候，可以通过该属性配置末尾显示的文本" },
+        "rich": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/definitions/TextCommonOption" },
+              "description": "富文本样式，可以设置文本的部分段落的样式"
+            }
+          }
+        }
+      ],
+      "description": "标题文本样式"
+    },
+    "TitleOption": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "组件 ID，可以在事件中用来指定触发的组件"
+        },
+        "show": { "type": "boolean", "description": "是否显示标题组件" },
+        "text": { "type": "string", "description": "主标题文本" },
+        "link": { "type": "string", "description": "主标题文本超链接" },
+        "target": {
+          "enum": ["self", "blank"],
+          "description": "指定窗口打开主标题超链接"
+        },
+        "subtext": { "type": "string", "description": "副标题文本" },
+        "sublink": { "type": "string", "description": "副标题文本超链接" },
+        "subtarget": {
+          "enum": ["self", "blank"],
+          "description": "指定窗口打开副标题超链接"
+        },
+        "textAlign": {
+          "enum": ["left", "center", "right"],
+          "description": "标题文本水平对齐方式，默认根据标题的位置自动决定"
+        },
+        "textVerticalAlign": {
+          "enum": ["top", "middle", "bottom"],
+          "description": "标题文本垂直对齐方式，默认根据标题的位置自动决定"
+        },
+        "textBaseline": {
+          "enum": ["top", "middle", "bottom"],
+          "description": "标题文本垂直对齐方式，已废弃，请使用 textVerticalAlign"
+        },
+        "backgroundColor": { "$ref": "#/definitions/ZRColor", "description": "标题背景色" },
+        "padding": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 1,
+              "maxItems": 4
+            }
+          ],
+          "description": "标题内边距，单位px，默认各方向内边距为5"
+        },
+        "itemGap": { "type": "number", "description": "主副标题之间的间距" },
+        "textStyle": { "$ref": "#/definitions/TitleTextStyleOption", "description": "主标题文本样式" },
+        "subtextStyle": { "$ref": "#/definitions/TitleTextStyleOption", "description": "副标题文本样式" },
+        "triggerEvent": { "type": "boolean", "description": "是否触发事件" },
+        "borderRadius": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 1,
+              "maxItems": 4
+            }
+          ],
+          "description": "标题的圆角半径"
+        },
+        "width": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "标题组件的宽度"
+        },
+        "height": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "标题组件的高度"
+        },
+        "top": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "标题组件离容器上侧的距离"
+        },
+        "right": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "标题组件离容器右侧的距离"
+        },
+        "bottom": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "标题组件离容器下侧的距离"
+        },
+        "left": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "标题组件离容器左侧的距离"
+        },
+        "borderColor": { "$ref": "#/definitions/ZRColor", "description": "边框颜色" },
+        "borderWidth": { "type": "number", "description": "边框宽度" },
+        "borderType": { "$ref": "#/definitions/ZRLineType", "description": "边框类型" },
+        "borderDashOffset": { "type": "number", "description": "虚线偏移量，使用 borderType 指定 dash array 时生效" },
+        "borderCap": {
+          "enum": ["butt", "round", "square"],
+          "description": "线段末端的绘制方式，可选：butt(默认): 线段末端以方形结束; round: 线段末端以圆形结束; square: 线段末端以方形结束，但是增加了一个宽度和线段相同，高度是线段厚度一半的矩形区域"
+        },
+        "borderJoin": {
+          "enum": ["bevel", "round", "miter"],
+          "description": "线段相交的绘制方式，可选：bevel: 在相交处用平直的斜接连接; round: 在相交处用圆弧连接; miter(默认): 在相交处用尖角连接"
+        },
+        "borderMiterLimit": { "type": "number", "description": "用于设置斜接面限制比例" }
+      },
+      "description": "标题组件配置"
+    },
+    "BorderMiterLimit": { "type": "number", "description": "用于设置斜接面限制比例" },
+    "LineStyleOption": {
+      "type": "object",
+      "properties": {
+        "width": { "type": "number", "description": "线宽" },
+        "color": { "$ref": "#/definitions/ZRColor", "description": "线的颜色" },
+        "opacity": { "type": "number", "description": "线的透明度" },
+        "type": { "$ref": "#/definitions/ZRLineType", "description": "线的类型" },
+        "cap": {
+          "enum": ["butt", "round", "square"],
+          "description": "线段末端的绘制方式"
+        },
+        "join": {
+          "enum": ["bevel", "round", "miter"],
+          "description": "线段相交的绘制方式"
+        },
+        "dashOffset": { "type": "number", "description": "虚线偏移量，使用 type 指定 dash array 时生效" },
+        "miterLimit": { "type": "number", "description": "用于设置斜接面限制比例" },
+        "shadowBlur": { "type": "number", "description": "图形阴影的模糊大小" },
+        "shadowColor": { "type": "string", "description": "阴影颜色" }
+      },
+      "description": "线条样式"
+    },
+    "ItemStyleOption": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "oneOf": [
+            { "$ref": "#/definitions/ZRColor" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "图形的颜色"
+        },
+        "opacity": { "type": "number", "description": "图形的不透明度" },
+        "decal": {
+          "oneOf": [
+            { "$ref": "#/definitions/DecalObject" },
+            { "enum": ["none"] }
+          ],
+          "description": "图形的贴花图案"
+        },
+        "borderRadius": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "type": "number" },
+                  { "type": "string" }
+                ]
+              }
+            }
+          ],
+          "description": "圆角半径，可以用数组分别指定 4 个角的圆角大小"
+        },
+        "borderColor": { "$ref": "#/definitions/ZRColor", "description": "图形的描边颜色" },
+        "borderWidth": { "type": "number", "description": "图形的描边宽度" },
+        "borderType": { "$ref": "#/definitions/ZRLineType", "description": "图形的描边类型" },
+        "borderCap": {
+          "enum": ["butt", "round", "square"],
+          "description": "描边线段末端的绘制方式"
+        },
+        "borderJoin": {
+          "enum": ["bevel", "round", "miter"],
+          "description": "描边线段相交的绘制方式"
+        },
+        "borderDashOffset": { "type": "number", "description": "虚线偏移量，使用 borderType 指定 dash array 时生效" },
+        "borderMiterLimit": { "type": "number", "description": "用于设置斜接面限制比例" },
+        "shadowBlur": { "type": "number", "description": "图形阴影的模糊大小" },
+        "shadowColor": { "type": "string", "description": "阴影颜色" },
+        "shadowOffsetX": { "type": "number", "description": "阴影水平方向上的偏移距离" },
+        "shadowOffsetY": { "type": "number", "description": "阴影垂直方向上的偏移距离" }
+      },
+      "description": "常用于描述图形数据项的样式"
+    },
+    "SeriesOption": {
+      "type": "object",
+      "oneOf": [
+        { "$ref": "#/definitions/LineSeriesOption" },
+        { "$ref": "#/definitions/BarSeriesOption" },
+        { "$ref": "#/definitions/ScatterSeriesOption" },
+        { "$ref": "#/definitions/PieSeriesOption" },
+        { "$ref": "#/definitions/RadarSeriesOption" },
+        { "$ref": "#/definitions/MapSeriesOption" },
+        { "$ref": "#/definitions/TreeSeriesOption" },
+        { "$ref": "#/definitions/TreemapSeriesOption" },
+        { "$ref": "#/definitions/GraphSeriesOption" },
+        { "$ref": "#/definitions/GaugeSeriesOption" },
+        { "$ref": "#/definitions/FunnelSeriesOption" },
+        { "$ref": "#/definitions/ParallelSeriesOption" },
+        { "$ref": "#/definitions/SankeySeriesOption" },
+        { "$ref": "#/definitions/BoxplotSeriesOption" },
+        { "$ref": "#/definitions/CandlestickSeriesOption" },
+        { "$ref": "#/definitions/EffectScatterSeriesOption" },
+        { "$ref": "#/definitions/LinesSeriesOption" },
+        { "$ref": "#/definitions/HeatmapSeriesOption" },
+        { "$ref": "#/definitions/PictorialBarSeriesOption" },
+        { "$ref": "#/definitions/ThemeRiverSeriesOption" },
+        { "$ref": "#/definitions/SunburstSeriesOption" },
+        { "$ref": "#/definitions/CustomSeriesOption" }
+      ],
+      "properties": {
+        "type": { "type": "string", "description": "系列类型" },
+        "name": { "type": "string", "description": "系列名称，用于tooltip的显示，legend的图例筛选" },
+        "id": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "组件 ID"
+        },
+        "zlevel": { "type": "number", "description": "组件的所有图形的z值" },
+        "z": { "type": "number", "description": "组件的所有图形的z值" },
+        "silent": { "type": "boolean", "description": "图形是否不响应和触发鼠标事件" },
+        "blendMode": { "type": "string", "description": "图形混合模式" },
+        "cursor": { "type": "string", "description": "鼠标悬浮时在图形元素上时鼠标的样式" },
+        "dataGroupId": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "数据分组ID"
+        },
+        "data": { "type": "array", "description": "系列中的数据内容数组" },
+        "colorBy": {
+          "enum": ["series", "data"],
+          "description": "按照哪个维度赋予图形颜色"
+        },
+        "legendHoverLink": { "type": "boolean", "description": "是否启用图例 hover 时的联动高亮" },
+        "progressive": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "boolean" }
+          ],
+          "description": "渐进式渲染时每一帧绘制图形数量，设为 false 时不启用渐进式渲染"
+        },
+        "progressiveThreshold": { "type": "number", "description": "启用渐进式渲染的图形数量阈值，大于这个阈值时才启用渐进式渲染" },
+        "progressiveChunkMode": { "enum": ["mod"], "description": "渐进式渲染的分块方式" },
+        "coordinateSystem": { "type": "string", "description": "该系列使用的坐标系" },
+        "hoverLayerThreshold": { "type": "number", "description": "图形数量阈值，决定是否开启单独的 hover 层，在整个图表的图形数量大于该阈值时启用单独的 hover 层" },
+        "seriesLayoutBy": {
+          "enum": ["column", "row"],
+          "description": "当使用 dataset 时，系列的取值是『行』还是『列』"
+        },
+        "labelLine": { "$ref": "#/definitions/LabelLineOption", "description": "标签的视觉引导线配置" },
+        "labelLayout": {
+          "oneOf": [
+            { "$ref": "#/definitions/LabelLayoutOption" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "标签布局配置"
+        },
+        "stateAnimation": { "$ref": "#/definitions/AnimationOption", "description": "状态切换的动画配置项" },
+        "universalTransition": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "$ref": "#/definitions/UniversalTransitionOption" }
+          ],
+          "description": "是否开启通用的过渡动画"
+        },
+        "selectedMap": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": { "type": "boolean" }
+            },
+            { "enum": ["all"] }
+          ],
+          "description": "选中状态的系列图形的映射"
+        },
+        "selectedMode": {
+          "oneOf": [
+            { "enum": ["single", "multiple", "series"] },
+            { "type": "boolean" }
+          ],
+          "description": "选中模式的配置，表示是否支持多个选中，默认关闭，支持布尔值和字符串"
+        },
+        "animation": { "type": "boolean", "description": "是否开启动画" },
+        "animationThreshold": { "type": "number", "description": "是否开启动画的阈值，当单个系列显示的图形数量大于这个阈值时会关闭动画" },
+        "animationDuration": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "初始动画的时长"
+        },
+        "animationEasing": { "$ref": "#/definitions/ZREasing", "description": "初始动画的缓动效果" },
+        "animationDelay": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "初始动画的延迟"
+        },
+        "animationDurationUpdate": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "数据更新动画的时长"
+        },
+        "animationEasingUpdate": { "$ref": "#/definitions/ZREasing", "description": "数据更新动画的缓动效果" },
+        "animationDelayUpdate": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "数据更新动画的延迟"
+        },
+        "emphasis": { "type": "object", "description": "高亮状态的配置" },
+        "select": { "type": "object", "description": "选中状态的配置" },
+        "blur": { "type": "object", "description": "淡出状态的配置" }
+      },
+      "description": "系列通用配置项"
+    },
+    "LineSeriesOption": {
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/definitions/SeriesOption" }
+      ],
+      "properties": {
+        "type": { "enum": ["line"], "description": "系列类型" },
+        "coordinateSystem": { "enum": ["cartesian2d", "polar"], "description": "该系列使用的坐标系" },
+        "clip": { "type": "boolean", "description": "是否裁剪超出坐标系部分的图形" },
+        "label": { "$ref": "#/definitions/SeriesLabelOption", "description": "标签配置" },
+        "endLabel": { "$ref": "#/definitions/LineEndLabelOption", "description": "折线端点的标签配置" },
+        "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "线条样式" },
+        "areaStyle": {
+          "allOf": [
+            { "$ref": "#/definitions/AreaStyleOption" }
+          ],
+          "properties": {
+            "origin": {
+              "oneOf": [
+                { "enum": ["auto", "start", "end"] },
+                { "type": "number" }
+              ],
+              "description": "区域填充的起始位置"
+            }
+          },
+          "description": "区域填充样式"
+        },
+        "step": {
+          "oneOf": [
+            { "type": "boolean", "enum": [false] },
+            { "enum": ["start", "end", "middle"] }
+          ],
+          "description": "是否是阶梯线图"
+        },
+        "smooth": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "type": "number" }
+          ],
+          "description": "是否平滑曲线显示"
+        },
+        "smoothMonotone": {
+          "enum": ["x", "y", "none"],
+          "description": "折线平滑后是否在一个维度上保持单调性"
+        },
+        "connectNulls": { "type": "boolean", "description": "是否连接空数据" },
+        "showSymbol": { "type": "boolean", "description": "是否显示 symbol, 如果 false 则只有在 tooltip hover 的时候显示" },
+        "showAllSymbol": {
+          "oneOf": [
+            { "enum": ["auto"] },
+            { "type": "boolean" }
+          ],
+          "description": "是否显示所有 symbol"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "oneOf": [
+                  { "type": "number" },
+                  { "type": "string" },
+                  { "type": "null" }
+                ]
+              },
+              {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    { "type": "number" },
+                    { "type": "string" },
+                    { "type": "null" }
+                  ]
+                }
+              },
+              { "$ref": "#/definitions/LineDataItemOption" }
+            ]
+          },
+          "description": "系列中的数据内容数组"
+        },
+        "triggerLineEvent": { "type": "boolean", "description": "是否触发图形元素的鼠标事件" },
+        "symbol": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "标记的图形"
+        },
+        "symbolSize": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "标记的大小"
+        },
+        "symbolRotate": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "标记的旋转角度"
+        },
+        "symbolKeepAspect": { "type": "boolean", "description": "如果 symbol 是 path:// 的形式，是否在缩放时保持该图形的长宽比" },
+        "symbolOffset": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "type": "string" },
+                  { "type": "number" }
+                ]
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "标记相对于原本位置的偏移"
+        }
+      },
+      "description": "折线/面积图系列"
+    },
+    "LineDataItemOption": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "数据项名称" },
+        "value": {
+          "oneOf": [
+            {
+              "oneOf": [
+                { "type": "number" },
+                { "type": "string" },
+                { "type": "null" }
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "type": "number" },
+                  { "type": "string" },
+                  { "type": "null" }
+                ]
+              }
+            }
+          ],
+          "description": "单个数据值"
+        },
+        "symbol": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "单个数据标记的图形"
+        },
+        "symbolSize": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "单个数据标记的大小"
+        },
+        "symbolRotate": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "单个数据标记的旋转角度"
+        },
+        "symbolKeepAspect": { "type": "boolean", "description": "如果 symbol 是 path:// 的形式，是否在缩放时保持该图形的长宽比" },
+        "symbolOffset": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "type": "string" },
+                  { "type": "number" }
+                ]
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "单个数据标记相对于原本位置的偏移"
+        },
+        "itemStyle": { "$ref": "#/definitions/ItemStyleOption", "description": "单个拐点的样式设置" },
+        "label": { "$ref": "#/definitions/SeriesLabelOption", "description": "单个拐点文字的样式设置" },
+        "emphasis": { "type": "object", "description": "单个拐点的高亮状态" },
+        "blur": { "type": "object", "description": "单个拐点的淡出状态" },
+        "select": { "type": "object", "description": "单个拐点的选中状态" }
+      },
+      "description": "折线图数据项"
+    },
+    "SeriesLabelOption": {
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/definitions/LabelOption" }
+      ],
+      "properties": {
+        "formatter": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "标签内容格式器"
+        }
+      },
+      "description": "系列数据项标签的通用配置"
+    },
+    "LineEndLabelOption": {
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/definitions/SeriesLabelOption" }
+      ],
+      "properties": {
+        "valueAnimation": { "type": "boolean", "description": "是否开启标签中数值的动画" }
+      },
+      "description": "折线端点的标签配置"
+    },
+    "LabelOption": {
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/definitions/TextCommonOption" }
+      ],
+      "properties": {
+        "show": { "type": "boolean", "description": "是否显示标签" },
+        "position": {
+          "oneOf": [
+            {
+              "enum": [
+                "top", "left", "right", "bottom",
+                "inside", "insideLeft", "insideRight",
+                "insideTop", "insideBottom", "insideTopLeft",
+                "insideTopRight", "insideBottomLeft", "insideBottomRight"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "type": "string" },
+                  { "type": "number" }
+                ]
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ],
+          "description": "标签的位置"
+        },
+        "distance": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ],
+          "description": "距离图形元素的距离"
+        },
+        "rotate": { "type": "number", "description": "标签旋转" },
+        "offset": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "是否对文字进行偏移"
+        },
+        "minMargin": { "type": "number", "description": "文字与相邻文字的间距" },
+        "overflow": {
+          "enum": ["none", "truncate", "break", "breakAll"],
+          "description": "文字超出宽度是否截断或者换行"
+        },
+        "ellipsis": { "type": "string", "description": "在overflow配置为'truncate'的时候，可以通过该属性配置末尾显示的文本" },
+        "silent": { "type": "boolean", "description": "文本是否响应和触发鼠标事件" },
+        "precision": {
+          "oneOf": [
+            { "type": "number" },
+            { "enum": ["auto"] }
+          ],
+          "description": "标签的数字精度，默认根据数据自动决定"
+        },
+        "valueAnimation": { "type": "boolean", "description": "是否开启标签中数值的动画" },
+        "rich": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/definitions/TextCommonOption" },
+          "description": "富文本样式，可以设置更多的文字样式"
+        }
+      },
+      "description": "标签的通用配置"
+    },
+    "LabelLineOption": {
+      "type": "object",
+      "properties": {
+        "show": { "type": "boolean", "description": "是否显示视觉引导线" },
+        "showAbove": { "type": "boolean", "description": "是否显示在图形上方" },
+        "length": { "type": "number", "description": "视觉引导线第一段的长度" },
+        "length2": { "type": "number", "description": "视觉引导线第二段的长度" },
+        "smooth": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "type": "number" }
+          ],
+          "description": "是否平滑视觉引导线，当值为 true 时，线段会平滑进行曲线转换，当值为 number 时，代表平滑因子"
+        },
+        "minTurnAngle": { "type": "number", "description": "视觉引导线的最小转折角度，取值范围 [0, 180]" },
+        "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "视觉引导线的样式" }
+      },
+      "description": "标签的视觉引导线配置"
+    },
+    "BarSeriesOption": {
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/definitions/SeriesOption" }
+      ],
+      "properties": {
+        "type": { "enum": ["bar"], "description": "系列类型" },
+        "coordinateSystem": { "enum": ["cartesian2d", "polar"], "description": "该系列使用的坐标系" },
+        "legendHoverLink": { "type": "boolean", "description": "是否启用图例 hover 时的联动高亮" },
+        "label": { "$ref": "#/definitions/SeriesLabelOption", "description": "图形上的文本标签" },
+        "itemStyle": { "$ref": "#/definitions/ItemStyleOption", "description": "柱条样式" },
+        "barWidth": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "柱条的宽度，不设时自适应"
+        },
+        "barMaxWidth": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "柱条的最大宽度，不设时自适应"
+        },
+        "barMinWidth": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "柱条的最小宽度，不设时自适应"
+        },
+        "barMinHeight": { "type": "number", "description": "柱条最小高度，可用于防止某数据项的值过小而影响交互" },
+        "barMinAngle": { "type": "number", "description": "极坐标系（coordinateSystem: 'polar'）柱状图最小角度，可用于防止某数据项的值过小而影响交互" },
+        "barGap": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "不同系列的柱间距离，为百分比（如 '30%'，表示柱子宽度的 30%）"
+        },
+        "barCategoryGap": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "同一系列的柱间距离，默认为类目间距的 20%，可设固定值"
+        },
+        "large": { "type": "boolean", "description": "是否开启大数据量优化，在数据图形特别多而出现卡顿时候可以开启" },
+        "largeThreshold": { "type": "number", "description": "开启大数据量优化的阈值" },
+        "progressive": { "type": "number", "description": "渐进式渲染时每一帧绘制图形数量" },
+        "progressiveThreshold": { "type": "number", "description": "启用渐进式渲染的图形数量阈值" },
+        "progressiveChunkMode": { "enum": ["mod"], "description": "分片的方式" },
+        "data": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "oneOf": [
+                  { "type": "number" },
+                  { "type": "string" },
+                  { "type": "null" }
+                ]
+              },
+              {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    { "type": "number" },
+                    { "type": "string" },
+                    { "type": "null" }
+                  ]
+                }
+              },
+              { "$ref": "#/definitions/BarDataItemOption" }
+            ]
+          },
+          "description": "系列中的数据内容数组"
+        },
+        "realtimeSort": { "type": "boolean", "description": "是否开启实时排序（动态排序）" },
+        "showBackground": { "type": "boolean", "description": "是否显示柱条的背景" },
+        "backgroundStyle": { "$ref": "#/definitions/ItemStyleOption", "description": "每一个柱条的背景样式" },
+        "clip": { "type": "boolean", "description": "是否裁剪超出坐标系部分的图形" }
+      },
+      "description": "柱状/条形图系列"
+    },
+    "BarDataItemOption": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "数据项名称" },
+        "value": {
+          "oneOf": [
+            {
+              "oneOf": [
+                { "type": "number" },
+                { "type": "string" },
+                { "type": "null" }
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "type": "number" },
+                  { "type": "string" },
+                  { "type": "null" }
+                ]
+              }
+            }
+          ],
+          "description": "单个数据值"
+        },
+        "itemStyle": { "$ref": "#/definitions/ItemStyleOption", "description": "单个柱条的样式设置" },
+        "label": { "$ref": "#/definitions/SeriesLabelOption", "description": "单个柱条文字的样式设置" },
+        "emphasis": { "type": "object", "description": "高亮状态的配置" },
+        "blur": { "type": "object", "description": "淡出状态的配置" },
+        "select": { "type": "object", "description": "选中状态的配置" }
+      },
+      "description": "柱状图数据项"
+    },
+    "PieSeriesOption": {
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/definitions/SeriesOption" }
+      ],
+      "properties": {
+        "type": { "enum": ["pie"], "description": "系列类型" },
+        "center": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "number" },
+              { "type": "string" }
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标"
+        },
+        "radius": {
+          "oneOf": [
+            {
+              "oneOf": [
+                { "type": "number" },
+                { "type": "string" }
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "type": "number" },
+                  { "type": "string" }
+                ]
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ],
+          "description": "饼图的半径，数组的第一项是内半径，第二项是外半径"
+        },
+        "roseType": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "enum": ["radius", "area"] }
+          ],
+          "description": "是否展示成南丁格尔图，通过半径区分数据大小"
+        },
+        "clockwise": { "type": "boolean", "description": "饼图的扇区是否是顺时针排布" },
+        "startAngle": { "type": "number", "description": "起始角度，支持范围[0, 360]" },
+        "minAngle": { "type": "number", "description": "最小的扇区角度（0 ~ 360），用于防止某个值过小导致扇区太小影响交互" },
+        "minShowLabelAngle": { "type": "number", "description": "小于这个角度（0 ~ 360）的扇区，不显示标签" },
+        "selectedOffset": { "type": "number", "description": "选中扇区的偏移距离" },
+        "percentPrecision": { "type": "number", "description": "显示的百分数的精度" },
+        "stillShowZeroSum": { "type": "boolean", "description": "是否在数据和为0（一般情况下所有数据为0） 的时候不显示扇区" },
+        "left": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "组件离容器左侧的距离"
+        },
+        "top": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "组件离容器上侧的距离"
+        },
+        "right": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "组件离容器右侧的距离"
+        },
+        "bottom": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "组件离容器下侧的距离"
+        },
+        "width": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "组件宽度"
+        },
+        "height": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "组件高度"
+        },
+        "avoidLabelOverlap": { "type": "boolean", "description": "是否启用防止标签重叠策略" },
+        "label": { "$ref": "#/definitions/SeriesLabelOption", "description": "饼图图形上的文本标签" },
+        "labelLine": { "$ref": "#/definitions/LabelLineOption", "description": "标签的视觉引导线样式" },
+        "itemStyle": { "$ref": "#/definitions/ItemStyleOption", "description": "图形样式" },
+        "emphasis": { "type": "object", "description": "高亮状态的扇区和标签样式" },
+        "data": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "oneOf": [
+                  { "type": "number" },
+                  { "type": "string" },
+                  { "type": "null" }
+                ]
+              },
+              { "$ref": "#/definitions/PieDataItemOption" }
+            ]
+          },
+          "description": "系列中的数据内容数组"
+        },
+        "animationType": {
+          "enum": ["expansion", "scale"],
+          "description": "初始动画效果，可选 'expansion'、'scale'"
+        },
+        "animationTypeUpdate": {
+          "enum": ["transition", "expansion"],
+          "description": "数据更新动画的类型"
+        }
+      },
+      "description": "饼图系列"
+    },
+    "PieDataItemOption": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "数据项名称" },
+        "value": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "数据值"
+        },
+        "selected": { "type": "boolean", "description": "该数据项是否被选中" },
+        "label": { "$ref": "#/definitions/SeriesLabelOption", "description": "单个扇区的标签配置" },
+        "labelLine": { "$ref": "#/definitions/LabelLineOption", "description": "标签的视觉引导线样式" },
+        "itemStyle": { "$ref": "#/definitions/ItemStyleOption", "description": "图形样式" },
+        "emphasis": { "type": "object", "description": "高亮状态的扇区和标签样式" },
+        "blur": { "type": "object", "description": "淡出状态的扇区和标签样式" },
+        "select": { "type": "object", "description": "选中状态的扇区和标签样式" }
+      },
+      "description": "饼图数据项"
+    },
+    "ScatterSeriesOption": {
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/definitions/SeriesOption" }
+      ],
+      "properties": {
+        "type": { "enum": ["scatter"], "description": "系列类型" },
+        "coordinateSystem": {
+          "enum": ["cartesian2d", "polar", "geo", "calendar"],
+          "description": "该系列使用的坐标系"
+        },
+        "large": { "type": "boolean", "description": "是否开启大规模散点图的优化，在数据图形特别多的时候（>=5k）可以开启" },
+        "largeThreshold": { "type": "number", "description": "开启绘制优化的阈值" },
+        "symbol": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "标记的图形"
+        },
+        "symbolSize": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "标记的大小"
+        },
+        "symbolRotate": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "标记的旋转角度"
+        },
+        "symbolKeepAspect": { "type": "boolean", "description": "如果 symbol 是 path:// 的形式，是否在缩放时保持该图形的长宽比" },
+        "symbolOffset": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "type": "string" },
+                  { "type": "number" }
+                ]
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "标记相对于原本位置的偏移"
+        },
+        "label": { "$ref": "#/definitions/SeriesLabelOption", "description": "图形上的文本标签" },
+        "itemStyle": { "$ref": "#/definitions/ItemStyleOption", "description": "图形样式" },
+        "emphasis": { "type": "object", "description": "高亮状态的样式设置" },
+        "data": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    { "type": "number" },
+                    { "type": "string" },
+                    { "type": "null" }
+                  ]
+                }
+              },
+              { "$ref": "#/definitions/ScatterDataItemOption" }
+            ]
+          },
+          "description": "系列中的数据内容数组"
+        },
+        "clip": { "type": "boolean", "description": "是否裁剪超出坐标系部分的图形" }
+      },
+      "description": "散点图系列"
+    },
+    "ScatterDataItemOption": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "数据项名称" },
+        "value": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "type": "number" },
+                  { "type": "string" },
+                  { "type": "null" }
+                ]
+              }
+            }
+          ],
+          "description": "单个数据项的数值"
+        },
+        "symbol": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "单个数据标记的图形"
+        },
+        "symbolSize": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "单个数据标记的大小"
+        },
+        "symbolRotate": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "单个数据标记的旋转角度"
+        },
+        "symbolKeepAspect": { "type": "boolean", "description": "如果 symbol 是 path:// 的形式，是否在缩放时保持该图形的长宽比" },
+        "symbolOffset": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "type": "string" },
+                  { "type": "number" }
+                ]
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "单个数据标记相对于原本位置的偏移"
+        },
+        "label": { "$ref": "#/definitions/SeriesLabelOption", "description": "单个拐点文字的样式设置" },
+        "itemStyle": { "$ref": "#/definitions/ItemStyleOption", "description": "单个图形的样式设置" },
+        "emphasis": { "type": "object", "description": "高亮状态的样式设置" },
+        "blur": { "type": "object", "description": "淡出状态的样式设置" },
+        "select": { "type": "object", "description": "选中状态的样式设置" }
+      },
+      "description": "散点图数据项"
+    },
+    "DecalObject": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "array", "items": { "type": "string" } }
+          ],
+          "description": "图案的图形，支持'rect', 'triangle', 'diamond', 'pin', 'arrow', 'circle'等"
+        },
+        "symbolSize": { "type": "number", "description": "图案元素的大小，缺省为 1" },
+        "symbolKeepAspect": { "type": "boolean", "description": "是否保持图案的长宽比例，缺省为 true" },
+        "color": { "$ref": "#/definitions/ZRColor", "description": "图案的颜色，缺省为系列对应的颜色" },
+        "backgroundColor": { "$ref": "#/definitions/ZRColor", "description": "图案的背景色，缺省为无背景" },
+        "dashArrayX": { "type": "number", "description": "图案在 x 方向上的基本单位长度" },
+        "dashArrayY": { "type": "number", "description": "图案在 y 方向上的基本单位长度" },
+        "rotation": { "type": "number", "description": "图案的整体旋转角度，单位是角度，缺省为 0" },
+        "maxTileWidth": { "type": "number", "description": "最大的图案幅度宽度" },
+        "maxTileHeight": { "type": "number", "description": "最大的图案幅度高度" }
+      },
+      "description": "图案填充样式设置"
+    },
+    "AriaOption": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean", "description": "是否启用无障碍访问" },
+        "label": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "description": "是否启用标签描述" },
+            "description": { "type": "string", "description": "默认的图表描述" },
+            "general": {
+              "type": "object",
+              "properties": {
+                "withTitle": { "type": "string", "description": "当图表存在标题时，默认的图表描述" },
+                "withoutTitle": { "type": "string", "description": "当图表不存在标题时，默认的图表描述" }
+              },
+              "description": "图表整体的描述"
+            },
+            "series": {
+              "type": "object",
+              "properties": {
+                "maxCount": { "type": "number", "description": "描述中最多出现的系列个数" },
+                "single": {
+                  "type": "object",
+                  "properties": {
+                    "prefix": { "type": "string", "description": "单系列时的前缀" },
+                    "withName": { "type": "string", "description": "系列有 name 时的描述" },
+                    "withoutName": { "type": "string", "description": "系列没有 name 时的描述" }
+                  },
+                  "description": "单系列时的描述"
+                },
+                "multiple": {
+                  "type": "object",
+                  "properties": {
+                    "prefix": { "type": "string", "description": "多系列时的前缀" },
+                    "withName": { "type": "string", "description": "系列有 name 时的描述" },
+                    "withoutName": { "type": "string", "description": "系列没有 name 时的描述" },
+                    "separator": { "type": "object", "properties": {
+                      "middle": { "type": "string", "description": "多个系列时中间的分隔符" },
+                      "end": { "type": "string", "description": "多个系列时最后一个系列前的分隔符" }
+                    }, "description": "系列之间的分隔符" }
+                  },
+                  "description": "多系列时的描述"
+                }
+              },
+              "description": "系列相关的描述"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "maxCount": { "type": "number", "description": "描述中最多出现的数据点个数" },
+                "allData": { "type": "string", "description": "所有数据的描述" },
+                "partialData": { "type": "string", "description": "部分数据的描述" },
+                "withName": { "type": "string", "description": "数据点有 name 时的描述" },
+                "withoutName": { "type": "string", "description": "数据点没有 name 时的描述" },
+                "separator": {
+                  "type": "object",
+                  "properties": {
+                    "middle": { "type": "string", "description": "多个数据点时中间的分隔符" },
+                    "end": { "type": "string", "description": "多个数据点时最后一个数据点前的分隔符" }
+                  },
+                  "description": "数据点之间的分隔符"
+                }
+              },
+              "description": "数据相关的描述"
+            }
+          },
+          "description": "标签相关的配置项"
+        },
+        "decal": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示图案" },
+            "decals": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/DecalObject" },
+              "description": "图案列表"
+            }
+          },
+          "description": "为坐标图元素添加贴花样式"
+        }
+      },
+      "description": "无障碍访问相关的配置"
+    },
+    "GridOption": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "组件 ID" },
+        "show": { "type": "boolean", "description": "是否显示直角坐标系网格" },
+        "zlevel": { "type": "number", "description": "Grid 组件所有图形的 zlevel 值" },
+        "z": { "type": "number", "description": "Grid 组件所有图形的z值" },
+        "left": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "grid 组件离容器左侧的距离"
+        },
+        "top": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "grid 组件离容器上侧的距离"
+        },
+        "right": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "grid 组件离容器右侧的距离"
+        },
+        "bottom": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "grid 组件离容器下侧的距离"
+        },
+        "width": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "grid 组件的宽度"
+        },
+        "height": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "grid 组件的高度"
+        },
+        "containLabel": { "type": "boolean", "description": "是否包含坐标轴的刻度标签" },
+        "backgroundColor": { "$ref": "#/definitions/ZRColor", "description": "网格背景色" },
+        "borderColor": { "$ref": "#/definitions/ZRColor", "description": "网格的边框颜色" },
+        "borderWidth": { "type": "number", "description": "网格的边框线宽" },
+        "shadowBlur": { "type": "number", "description": "图形阴影的模糊大小" },
+        "shadowColor": { "$ref": "#/definitions/ZRColor", "description": "阴影颜色" },
+        "shadowOffsetX": { "type": "number", "description": "阴影水平方向上的偏移距离" },
+        "shadowOffsetY": { "type": "number", "description": "阴影垂直方向上的偏移距离" },
+        "tooltip": { "$ref": "#/definitions/TooltipOption", "description": "坐标系特定的 tooltip 设定" }
+      },
+      "description": "直角坐标系内绘图网格"
+    },
+    "RadarOption": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "组件 ID" },
+        "zlevel": { "type": "number", "description": "所有图形的 zlevel 值" },
+        "z": { "type": "number", "description": "组件的所有图形的z值" },
+        "center": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" }
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "雷达图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标"
+        },
+        "radius": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "type": "number" },
+                  { "type": "string" }
+                ]
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ],
+          "description": "雷达图的半径，可以是具体数值或百分比"
+        },
+        "startAngle": { "type": "number", "description": "坐标系起始角度，也就是第一个指示器轴的角度" },
+        "axisName": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示指示器名称" },
+            "formatter": {
+              "oneOf": [
+                { "type": "string" },
+                { "type": "string", "format": "function-string" }
+              ],
+              "description": "指示器名称显示编辑器"
+            },
+            "color": { "$ref": "#/definitions/ZRColor", "description": "文字的颜色" },
+            "fontStyle": { "$ref": "#/definitions/ZRFontStyle", "description": "文字字体的风格" },
+            "fontWeight": { "$ref": "#/definitions/ZRFontWeight", "description": "文字字体的粗细" },
+            "fontFamily": { "type": "string", "description": "文字的字体系列" },
+            "fontSize": { "type": "number", "description": "文字的字体大小" },
+            "lineHeight": { "type": "number", "description": "行高" },
+            "backgroundColor": { "$ref": "#/definitions/ZRColor", "description": "文字块背景色" },
+            "borderColor": { "$ref": "#/definitions/ZRColor", "description": "文字块边框颜色" },
+            "borderWidth": { "type": "number", "description": "文字块边框宽度" },
+            "borderRadius": {
+              "oneOf": [
+                { "type": "number" },
+                {
+                  "type": "array",
+                  "items": { "type": "number" },
+                  "minItems": 4,
+                  "maxItems": 4
+                }
+              ],
+              "description": "文字块的圆角半径"
+            },
+            "padding": {
+              "oneOf": [
+                { "type": "number" },
+                {
+                  "type": "array",
+                  "items": { "type": "number" },
+                  "minItems": 1,
+                  "maxItems": 4
+                }
+              ],
+              "description": "文字块的内边距"
+            },
+            "shadowColor": { "$ref": "#/definitions/ZRColor", "description": "文字块的阴影颜色" },
+            "shadowBlur": { "type": "number", "description": "文字块的阴影长度" },
+            "shadowOffsetX": { "type": "number", "description": "文字块的阴影 X 偏移" },
+            "shadowOffsetY": { "type": "number", "description": "文字块的阴影 Y 偏移" },
+            "rich": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/TextCommonOption"
+              },
+              "description": "在 rich 里面，可以自定义富文本样式"
+            }
+          },
+          "description": "雷达图每个指示器名称的配置项"
+        },
+        "nameGap": { "type": "number", "description": "指示器名称和指示器轴的距离" },
+        "splitNumber": { "type": "number", "description": "指示器轴的分割段数" },
+        "shape": { "enum": ["polygon", "circle"], "description": "雷达图绘制类型，支持 'polygon' 和 'circle'" },
+        "scale": { "type": "boolean", "description": "是否是脱离 0 值比例" },
+        "silent": { "type": "boolean", "description": "坐标系是否静止不能交互" },
+        "triggerEvent": { "type": "boolean", "description": "坐标轴的标签是否响应和触发鼠标事件" },
+        "axisLine": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示轴线" },
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "轴线样式" }
+          },
+          "description": "坐标轴轴线相关设置"
+        },
+        "axisTick": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示刻度" },
+            "inside": { "type": "boolean", "description": "刻度是否朝内" },
+            "length": { "type": "number", "description": "刻度长度" },
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "刻度线样式" }
+          },
+          "description": "坐标轴刻度相关设置"
+        },
+        "axisLabel": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示标签" },
+            "formatter": {
+              "oneOf": [
+                { "type": "string" },
+                { "type": "string", "format": "function-string" }
+              ],
+              "description": "刻度标签的内容格式器"
+            },
+            "rotate": { "type": "number", "description": "标签旋转角度" },
+            "margin": { "type": "number", "description": "刻度标签与轴线之间的距离" },
+            "color": { "$ref": "#/definitions/ZRColor", "description": "文字的颜色" },
+            "fontStyle": { "$ref": "#/definitions/ZRFontStyle", "description": "文字字体的风格" },
+            "fontWeight": { "$ref": "#/definitions/ZRFontWeight", "description": "文字字体的粗细" },
+            "fontFamily": { "type": "string", "description": "文字的字体系列" },
+            "fontSize": { "type": "number", "description": "文字的字体大小" },
+            "align": { "enum": ["left", "center", "right"], "description": "文字水平对齐方式" },
+            "verticalAlign": { "enum": ["top", "middle", "bottom"], "description": "文字垂直对齐方式" }
+          },
+          "description": "坐标轴刻度标签的相关设置"
+        },
+        "splitLine": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示分隔线" },
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "分隔线样式" }
+          },
+          "description": "坐标轴在 grid 区域中的分隔线"
+        },
+        "splitArea": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示分隔区域" },
+            "areaStyle": {
+              "type": "object",
+              "properties": {
+                "color": {
+                  "oneOf": [
+                    { "$ref": "#/definitions/ZRColor" },
+                    {
+                      "type": "array",
+                      "items": { "$ref": "#/definitions/ZRColor" }
+                    }
+                  ],
+                  "description": "分隔区域颜色。分隔区域会按数组中颜色的顺序依次循环设置颜色"
+                },
+                "opacity": { "type": "number", "description": "图形透明度" }
+              },
+              "description": "分隔区域的样式设置"
+            }
+          },
+          "description": "坐标轴在 grid 区域中的分隔区域"
+        },
+        "indicator": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "description": "指示器名称" },
+              "max": { "type": "number", "description": "指示器的最大值" },
+              "min": { "type": "number", "description": "指示器的最小值" },
+              "color": { "$ref": "#/definitions/ZRColor", "description": "标签特定的颜色" }
+            }
+          },
+          "description": "雷达图的指示器，每个指示器就是一个维度"
+        }
+      },
+      "description": "雷达图坐标系组件"
+    },
+    "PolarOption": {
+      "type": "object",
+      "properties": {
+        "id": { "oneOf": [{ "type": "string" }, { "type": "number" }], "description": "组件 ID" },
+        "zlevel": { "type": "number", "description": "极坐标系组件所在的 canvas 层" },
+        "z": { "type": "number", "description": "组件的所有图形的 z 值" },
+        "center": {
+          "type": "array",
+          "items": { "oneOf": [{ "type": "number" }, { "type": "string" }] },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "极坐标系的中心（圆心）坐标"
+        },
+        "radius": {
+                "oneOf": [
+                  { "type": "number" },
+            { "type": "string" },
+                  {
+                    "type": "array",
+              "items": { "oneOf": [{ "type": "number" }, { "type": "string" }] },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ],
+          "description": "极坐标系的半径"
+        },
+        "tooltip": { "$ref": "#/definitions/TooltipOption", "description": "坐标系特定的 tooltip 设定" }
+      },
+      "description": "极坐标系组件，只适用于极坐标系的图表"
+    },
+    "AreaStyleOption": {
+      "type": "object",
+      "properties": {
+        "color": { "$ref": "#/definitions/ZRColor", "description": "填充的颜色" },
+        "opacity": { "type": "number", "description": "填充的透明度" },
+        "shadowBlur": { "type": "number", "description": "图形阴影的模糊大小" },
+        "shadowColor": { "type": "string", "description": "阴影颜色" },
+        "shadowOffsetX": { "type": "number", "description": "阴影水平方向上的偏移距离" },
+        "shadowOffsetY": { "type": "number", "description": "阴影垂直方向上的偏移距离" }
+      },
+      "description": "区域填充样式"
+    },
+    "XAXisOption": {
+      "type": "object",
+      "properties": {
+        "id": { "oneOf": [{ "type": "string" }, { "type": "number" }], "description": "组件 ID" },
+        "show": { "type": "boolean", "description": "是否显示 x 轴" },
+        "gridIndex": { "type": "number", "description": "x 轴所在的 grid 的索引，默认位于第一个 grid" },
+        "alignTicks": { "type": "boolean", "description": "在多个 x 轴为数值轴的时候，是否需要对刻度进行对齐" },
+        "position": { "enum": ["top", "bottom"], "description": "x 轴的位置" },
+        "offset": { "type": "number", "description": "X 轴相对于默认位置的偏移" },
+        "type": { "enum": ["value", "category", "time", "log"], "description": "坐标轴类型" },
+        "name": { "type": "string", "description": "坐标轴名称" },
+        "nameLocation": { "enum": ["start", "middle", "end"], "description": "坐标轴名称的位置" },
+        "nameTextStyle": {
+          "$ref": "#/definitions/TextCommonOption",
+          "description": "坐标轴名称的文字样式"
+        },
+        "nameGap": { "type": "number", "description": "坐标轴名称与轴线之间的距离" },
+        "nameRotate": { "type": "number", "description": "坐标轴名字旋转，角度值" },
+        "inverse": { "type": "boolean", "description": "是否是反向坐标轴" },
+        "boundaryGap": {
+          "oneOf": [
+            { "type": "boolean" },
+            {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ],
+          "description": "坐标轴两边留白策略"
+        },
+        "min": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "坐标轴刻度最小值"
+        },
+        "max": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "坐标轴刻度最大值"
+        },
+        "scale": { "type": "boolean", "description": "是否是脱离 0 值比例" },
+        "splitNumber": { "type": "number", "description": "坐标轴的分割段数" },
+        "minInterval": { "type": "number", "description": "自动计算的坐标轴最小间隔大小" },
+        "maxInterval": { "type": "number", "description": "自动计算的坐标轴最大间隔大小" },
+        "interval": { "type": "number", "description": "强制设置坐标轴分割间隔" },
+        "logBase": { "type": "number", "description": "对数轴的底数" },
+        "silent": { "type": "boolean", "description": "坐标轴是否是静态无法交互" },
+        "triggerEvent": { "type": "boolean", "description": "坐标轴的标签是否响应和触发鼠标事件" },
+        "axisLine": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示坐标轴轴线" },
+            "onZero": { "type": "boolean", "description": "X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上" },
+            "onZeroAxisIndex": { "type": "number", "description": "当有双轴时，可以用这个属性指定在哪个轴的 0 刻度上" },
+            "symbol": {
+              "oneOf": [
+                { "type": "string" },
+                {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              ],
+              "description": "轴线两边的箭头"
+            },
+            "symbolSize": {
+              "oneOf": [
+                { "type": "number" },
+                {
+                  "type": "array",
+                  "items": { "type": "number" },
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              ],
+              "description": "轴线两边的箭头的大小"
+            },
+            "symbolOffset": {
+              "oneOf": [
+                { "type": "number" },
+                {
+                  "type": "array",
+                  "items": { "type": "number" },
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              ],
+              "description": "轴线两边的箭头的偏移"
+            },
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "坐标轴线样式" }
+          },
+          "description": "坐标轴轴线相关设置"
+        },
+        "axisTick": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示坐标轴刻度" },
+            "alignWithLabel": { "type": "boolean", "description": "类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐" },
+            "interval": {
+              "oneOf": [
+                { "type": "number" },
+                { "type": "string" },
+                { "type": "string", "format": "function-string" }
+              ],
+              "description": "坐标轴刻度的显示间隔"
+            },
+            "inside": { "type": "boolean", "description": "坐标轴刻度是否朝内" },
+            "length": { "type": "number", "description": "坐标轴刻度的长度" },
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "坐标轴刻度线样式" }
+          },
+          "description": "坐标轴刻度相关设置"
+        },
+        "axisLabel": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示刻度标签" },
+            "interval": {
+              "oneOf": [
+                { "type": "number" },
+                { "type": "string" },
+                { "type": "string", "format": "function-string" }
+              ],
+              "description": "坐标轴刻度标签的显示间隔"
+            },
+            "inside": { "type": "boolean", "description": "刻度标签是否朝内" },
+            "rotate": { "type": "number", "description": "刻度标签旋转的角度" },
+            "margin": { "type": "number", "description": "刻度标签与轴线之间的距离" },
+            "formatter": {
+              "oneOf": [
+                { "type": "string" },
+                { "type": "string", "format": "function-string" }
+              ],
+              "description": "刻度标签的内容格式器"
+            },
+            "showMinLabel": { "type": "boolean", "description": "是否显示最小 tick 的 label" },
+            "showMaxLabel": { "type": "boolean", "description": "是否显示最大 tick 的 label" },
+            "hideOverlap": { "type": "boolean", "description": "是否在标签重叠的时候隐藏某些标签" },
+            "color": { "$ref": "#/definitions/ZRColor", "description": "刻度标签文字的颜色" },
+            "fontStyle": { "$ref": "#/definitions/ZRFontStyle", "description": "文字字体的风格" },
+            "fontWeight": { "$ref": "#/definitions/ZRFontWeight", "description": "文字字体的粗细" },
+            "fontFamily": { "type": "string", "description": "文字的字体系列" },
+            "fontSize": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "文字的字体大小" },
+            "align": { "enum": ["left", "center", "right"], "description": "文字水平对齐方式" },
+            "verticalAlign": { "enum": ["top", "middle", "bottom"], "description": "文字垂直对齐方式" },
+            "lineHeight": { "type": "number", "description": "行高" },
+            "backgroundColor": { "$ref": "#/definitions/ZRColor", "description": "文字块背景色" },
+            "borderColor": { "$ref": "#/definitions/ZRColor", "description": "文字块边框颜色" },
+            "borderWidth": { "type": "number", "description": "文字块边框宽度" },
+            "borderRadius": {
+              "oneOf": [
+                { "type": "number" },
+                {
+                  "type": "array",
+                  "items": { "type": "number" },
+                  "minItems": 1,
+                  "maxItems": 4
+                }
+              ],
+              "description": "文字块的圆角"
+            },
+            "padding": {
+              "oneOf": [
+                { "type": "number" },
+                {
+                  "type": "array",
+                  "items": { "type": "number" },
+                  "minItems": 1,
+                  "maxItems": 4
+                }
+              ],
+              "description": "文字块的内边距"
+            },
+            "shadowColor": { "type": "string", "description": "文字块的阴影颜色" },
+            "shadowBlur": { "type": "number", "description": "文字块的阴影长度" },
+            "shadowOffsetX": { "type": "number", "description": "文字块的阴影 X 偏移" },
+            "shadowOffsetY": { "type": "number", "description": "文字块的阴影 Y 偏移" },
+            "width": { "type": "number", "description": "文字块的宽度" },
+            "height": { "type": "number", "description": "文字块的高度" },
+            "textBorderColor": { "type": "string", "description": "文字本身的描边颜色" },
+            "textBorderWidth": { "type": "number", "description": "文字本身的描边宽度" },
+            "textBorderType": { "$ref": "#/definitions/ZRLineType", "description": "文字本身的描边类型" },
+            "textBorderDashOffset": { "type": "number", "description": "虚线偏移量，使用 textBorderType 指定 dash array 时生效" },
+            "textShadowColor": { "type": "string", "description": "文字本身的阴影颜色" },
+            "textShadowBlur": { "type": "number", "description": "文字本身的阴影长度" },
+            "textShadowOffsetX": { "type": "number", "description": "文字本身的阴影 X 偏移" },
+            "textShadowOffsetY": { "type": "number", "description": "文字本身的阴影 Y 偏移" },
+            "rich": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/TextCommonOption"
+              },
+              "description": "在 rich 里面，可以自定义富文本样式"
+            }
+          },
+          "description": "坐标轴刻度标签的相关设置"
+        },
+        "splitLine": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示分隔线" },
+            "interval": {
+              "oneOf": [
+                { "type": "number" },
+                { "type": "string" },
+                { "type": "string", "format": "function-string" }
+              ],
+              "description": "坐标轴分隔线的显示间隔"
+            },
+            "lineStyle": {
+              "allOf": [{ "$ref": "#/definitions/LineStyleOption" }],
+              "properties": {
+                "color": {
+                  "oneOf": [
+                    { "$ref": "#/definitions/ZRColor" },
+                    {
+                      "type": "array",
+                      "items": { "$ref": "#/definitions/ZRColor" }
+                    }
+                  ],
+                  "description": "分隔线颜色，可以设置成单个颜色，也可以设置成颜色数组，分隔线会按数组中颜色的顺序依次循环设置颜色"
+                }
+              },
+              "description": "分隔线样式"
+            }
+          },
+          "description": "坐标轴在 grid 区域中的分隔线"
+        },
+        "splitArea": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示分隔区域" },
+            "interval": {
+              "oneOf": [
+                { "type": "number" },
+                { "type": "string" },
+                { "type": "string", "format": "function-string" }
+              ],
+              "description": "坐标轴分隔区域的显示间隔"
+            },
+            "areaStyle": {
+              "type": "object",
+              "properties": {
+                "color": {
+                  "oneOf": [
+                    { "$ref": "#/definitions/ZRColor" },
+                    {
+                      "type": "array",
+                      "items": { "$ref": "#/definitions/ZRColor" }
+                    }
+                  ],
+                  "description": "分隔区域颜色。分隔区域会按数组中颜色的顺序依次循环设置颜色"
+                },
+                "opacity": { "type": "number", "description": "图形透明度" }
+              },
+              "description": "分隔区域的样式设置"
+            }
+          },
+          "description": "坐标轴在 grid 区域中的分隔区域"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" },
+              {
+                "type": "object",
+                "properties": {
+                  "value": { "oneOf": [{ "type": "string" }, { "type": "number" }], "description": "刻度值" },
+                  "textStyle": { "$ref": "#/definitions/TextCommonOption", "description": "文字样式" }
+                }
+              }
+            ]
+          },
+          "description": "类目数据，在类目轴（type: 'category'）中有效"
+        },
+        "zlevel": { "type": "number", "description": "X 轴所有图形的 zlevel 值" },
+        "z": { "type": "number", "description": "X 轴组件的所有图形的z值" },
+        "animation": { "type": "boolean", "description": "是否开启动画" },
+        "animationDuration": { "type": "number", "description": "初始动画的时长" },
+        "animationEasing": { "$ref": "#/definitions/ZREasing", "description": "初始动画的缓动效果" }
+      },
+      "description": "直角坐标系 grid 中的 x 轴"
+    },
+    "YAXisOption": {
+      "allOf": [{ "$ref": "#/definitions/XAXisOption" }],
+      "properties": {
+        "position": { "enum": ["left", "right"], "description": "y 轴的位置" }
+      },
+      "description": "直角坐标系 grid 中的 y 轴"
+    },
+    "SingleAxisOption": {
+      "type": "object",
+      "properties": {
+        "id": { "oneOf": [{ "type": "string" }, { "type": "number" }], "description": "组件 ID" },
+        "zlevel": { "type": "number", "description": "组件的所有图形的 zlevel 值" },
+        "z": { "type": "number", "description": "组件的所有图形的 z 值" },
+        "left": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器左侧的距离" },
+        "top": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器上侧的距离" },
+        "right": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器右侧的距离" },
+        "bottom": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器下侧的距离" },
+        "width": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件宽度" },
+        "height": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件高度" },
+        "orient": { "enum": ["horizontal", "vertical"], "description": "轴的朝向" },
+        "type": { "enum": ["value", "category", "time", "log"], "description": "坐标轴类型" },
+        "name": { "type": "string", "description": "坐标轴名称" },
+        "nameLocation": { "enum": ["start", "middle", "end"], "description": "坐标轴名称的位置" },
+        "nameTextStyle": { "$ref": "#/definitions/TextCommonOption", "description": "坐标轴名称的文字样式" },
+        "nameGap": { "type": "number", "description": "坐标轴名称与轴线之间的距离" },
+        "nameRotate": { "type": "number", "description": "坐标轴名字旋转，角度值" },
+        "inverse": { "type": "boolean", "description": "是否是反向坐标轴" },
+        "boundaryGap": {
+          "oneOf": [
+            { "type": "boolean" },
+            {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ],
+          "description": "坐标轴两边留白策略"
+        },
+        "min": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "坐标轴刻度最小值"
+        },
+        "max": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "坐标轴刻度最大值"
+        },
+        "scale": { "type": "boolean", "description": "是否是脱离 0 值比例" },
+        "splitNumber": { "type": "number", "description": "坐标轴的分割段数" },
+        "minInterval": { "type": "number", "description": "自动计算的坐标轴最小间隔大小" },
+        "maxInterval": { "type": "number", "description": "自动计算的坐标轴最大间隔大小" },
+        "interval": { "type": "number", "description": "强制设置坐标轴分割间隔" },
+        "logBase": { "type": "number", "description": "对数轴的底数" },
+        "silent": { "type": "boolean", "description": "坐标轴是否是静态无法交互" },
+        "triggerEvent": { "type": "boolean", "description": "坐标轴的标签是否响应和触发鼠标事件" },
+        "axisLine": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示坐标轴轴线" },
+            "symbol": {
+              "oneOf": [
+                { "type": "string" },
+                {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              ],
+              "description": "轴线两边的箭头"
+            },
+            "symbolSize": {
+              "oneOf": [
+                { "type": "number" },
+                {
+                  "type": "array",
+                  "items": { "type": "number" },
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              ],
+              "description": "轴线两边的箭头的大小"
+            },
+            "symbolOffset": {
+              "oneOf": [
+                { "type": "number" },
+                {
+                  "type": "array",
+                  "items": { "type": "number" },
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              ],
+              "description": "轴线两边的箭头的偏移"
+            },
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "坐标轴线样式" }
+          },
+          "description": "坐标轴轴线相关设置"
+        },
+        "axisTick": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示坐标轴刻度" },
+            "alignWithLabel": { "type": "boolean", "description": "类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐" },
+            "interval": {
+              "oneOf": [
+                { "type": "number" },
+                { "type": "string" },
+                { "type": "string", "format": "function-string" }
+              ],
+              "description": "坐标轴刻度的显示间隔"
+            },
+            "inside": { "type": "boolean", "description": "坐标轴刻度是否朝内" },
+            "length": { "type": "number", "description": "坐标轴刻度的长度" },
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "坐标轴刻度线样式" }
+          },
+          "description": "坐标轴刻度相关设置"
+        },
+        "axisLabel": {
+          "$ref": "#/definitions/XAXisOption/properties/axisLabel",
+          "description": "坐标轴刻度标签的相关设置"
+        },
+        "splitLine": {
+          "$ref": "#/definitions/XAXisOption/properties/splitLine",
+          "description": "坐标轴在 grid 区域中的分隔线"
+        },
+        "splitArea": {
+          "$ref": "#/definitions/XAXisOption/properties/splitArea",
+          "description": "坐标轴在 grid 区域中的分隔区域"
+        },
+        "data": {
+          "$ref": "#/definitions/XAXisOption/properties/data",
+          "description": "类目数据，在类目轴（type: 'category'）中有效"
+        },
+        "axisPointer": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示指示器" },
+            "type": { "enum": ["line", "shadow", "none"], "description": "指示器类型" },
+            "label": {
+              "type": "object",
+              "properties": {
+                "show": { "type": "boolean", "description": "是否显示文本标签" },
+                "formatter": {
+                  "oneOf": [
+                    { "type": "string" },
+                    { "type": "string", "format": "function-string" }
+                  ],
+                  "description": "文本标签的内容格式器"
+                },
+                "margin": { "type": "number", "description": "label 距离轴的距离" },
+                "color": { "$ref": "#/definitions/ZRColor", "description": "文字的颜色" },
+                "fontStyle": { "$ref": "#/definitions/ZRFontStyle", "description": "文字字体的风格" },
+                "fontWeight": { "$ref": "#/definitions/ZRFontWeight", "description": "文字字体的粗细" },
+                "fontFamily": { "type": "string", "description": "文字的字体系列" },
+                "fontSize": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "文字的字体大小" },
+                "padding": {
+                  "oneOf": [
+                    { "type": "number" },
+                    {
+                      "type": "array",
+                      "items": { "type": "number" },
+                      "minItems": 1,
+                      "maxItems": 4
+                    }
+                  ],
+                  "description": "文字块的内边距"
+                },
+                "backgroundColor": { "$ref": "#/definitions/ZRColor", "description": "文字块背景色" },
+                "borderColor": { "$ref": "#/definitions/ZRColor", "description": "文字块边框颜色" },
+                "borderWidth": { "type": "number", "description": "文字块边框宽度" },
+                "shadowColor": { "type": "string", "description": "文字块的阴影颜色" },
+                "shadowBlur": { "type": "number", "description": "文字块的阴影长度" },
+                "shadowOffsetX": { "type": "number", "description": "文字块的阴影 X 偏移" },
+                "shadowOffsetY": { "type": "number", "description": "文字块的阴影 Y 偏移" }
+              },
+              "description": "axisPointer 文本标签的配置"
+            },
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "line 类型的指示器样式配置" },
+            "shadowStyle": {
+              "type": "object",
+              "properties": {
+                "color": { "$ref": "#/definitions/ZRColor", "description": "阴影颜色" },
+                "opacity": { "type": "number", "description": "图形透明度" },
+                "shadowBlur": { "type": "number", "description": "图形阴影的模糊大小" },
+                "shadowColor": { "type": "string", "description": "阴影颜色" },
+                "shadowOffsetX": { "type": "number", "description": "阴影水平方向上的偏移距离" },
+                "shadowOffsetY": { "type": "number", "description": "阴影垂直方向上的偏移距离" }
+              },
+              "description": "shadow 类型的指示器样式配置"
+            },
+            "handle": {
+              "type": "object",
+              "properties": {
+                "show": { "type": "boolean", "description": "是否显示拖拽手柄" },
+                "icon": { "type": "string", "description": "手柄的图标" },
+                "size": { "type": "number", "description": "手柄的大小" },
+                "margin": { "type": "number", "description": "手柄与轴的距离" },
+                "color": { "$ref": "#/definitions/ZRColor", "description": "手柄颜色" },
+                "throttle": { "type": "number", "description": "拖拽时的节流延迟，单位毫秒" }
+              },
+              "description": "拖拽手柄的设置"
+            },
+            "status": { "enum": ["show", "hide"], "description": "当前的状态，可取值为 'show' 和 'hide'" },
+            "value": { "type": "number", "description": "当前的值，在使用 trigger 为 'manual' 的时候有效" },
+            "triggerTooltip": { "type": "boolean", "description": "是否触发 tooltip" }
+          },
+          "description": "坐标轴指示器配置"
+        },
+        "tooltip": { "$ref": "#/definitions/TooltipOption", "description": "坐标系特定的 tooltip 设定" }
+      },
+      "description": "单轴，可以被应用到散点图中展现一维数据"
+    },
+    "RadiusAxisOption": {
+      "type": "object",
+      "properties": {
+        "id": { "oneOf": [{ "type": "string" }, { "type": "number" }], "description": "组件 ID" },
+        "polarIndex": { "type": "number", "description": "径向轴所在的极坐标系的索引，默认使用第一个极坐标系" },
+        "type": { "enum": ["value", "category", "time", "log"], "description": "坐标轴类型" },
+        "name": { "type": "string", "description": "坐标轴名称" },
+        "nameLocation": { "enum": ["start", "middle", "end"], "description": "坐标轴名称的位置" },
+        "nameTextStyle": { "$ref": "#/definitions/TextCommonOption", "description": "坐标轴名称的文字样式" },
+        "nameGap": { "type": "number", "description": "坐标轴名称与轴线之间的距离" },
+        "nameRotate": { "type": "number", "description": "坐标轴名字旋转，角度值" },
+        "inverse": { "type": "boolean", "description": "是否是反向坐标轴" },
+        "boundaryGap": {
+          "oneOf": [
+            { "type": "boolean" },
+            {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ],
+          "description": "坐标轴两边留白策略"
+        },
+        "min": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "坐标轴刻度最小值"
+        },
+        "max": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "坐标轴刻度最大值"
+        },
+        "scale": { "type": "boolean", "description": "是否是脱离 0 值比例" },
+        "splitNumber": { "type": "number", "description": "坐标轴的分割段数" },
+        "minInterval": { "type": "number", "description": "自动计算的坐标轴最小间隔大小" },
+        "maxInterval": { "type": "number", "description": "自动计算的坐标轴最大间隔大小" },
+        "interval": { "type": "number", "description": "强制设置坐标轴分割间隔" },
+        "logBase": { "type": "number", "description": "对数轴的底数" },
+        "silent": { "type": "boolean", "description": "坐标轴是否是静态无法交互" },
+        "triggerEvent": { "type": "boolean", "description": "坐标轴的标签是否响应和触发鼠标事件" },
+        "axisLine": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示坐标轴轴线" },
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "坐标轴线样式" }
+          },
+          "description": "坐标轴轴线相关设置"
+        },
+        "axisTick": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示坐标轴刻度" },
+            "alignWithLabel": { "type": "boolean", "description": "类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐" },
+            "interval": {
+              "oneOf": [
+                { "type": "number" },
+                { "type": "string" },
+                { "type": "string", "format": "function-string" }
+              ],
+              "description": "坐标轴刻度的显示间隔"
+            },
+            "inside": { "type": "boolean", "description": "坐标轴刻度是否朝内" },
+            "length": { "type": "number", "description": "坐标轴刻度的长度" },
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "坐标轴刻度线样式" }
+          },
+          "description": "坐标轴刻度相关设置"
+        },
+        "axisLabel": {
+          "$ref": "#/definitions/XAXisOption/properties/axisLabel",
+          "description": "坐标轴刻度标签的相关设置"
+        },
+        "splitLine": {
+          "$ref": "#/definitions/XAXisOption/properties/splitLine",
+          "description": "坐标轴在 grid 区域中的分隔线"
+        },
+        "splitArea": {
+          "$ref": "#/definitions/XAXisOption/properties/splitArea",
+          "description": "坐标轴在 grid 区域中的分隔区域"
+        },
+        "data": {
+          "$ref": "#/definitions/XAXisOption/properties/data",
+          "description": "类目数据，在类目轴（type: 'category'）中有效"
+        },
+        "axisPointer": {
+          "$ref": "#/definitions/SingleAxisOption/properties/axisPointer",
+          "description": "坐标轴指示器配置"
+        },
+        "zlevel": { "type": "number", "description": "径向轴所有图形的 zlevel 值" },
+        "z": { "type": "number", "description": "径向轴组件的所有图形的z值" }
+      },
+      "description": "极坐标系的径向轴"
+    },
+    "AngleAxisOption": {
+      "type": "object",
+      "properties": {
+        "id": { "oneOf": [{ "type": "string" }, { "type": "number" }], "description": "组件 ID" },
+        "polarIndex": { "type": "number", "description": "角度轴所在的极坐标系的索引，默认使用第一个极坐标系" },
+        "startAngle": { "type": "number", "description": "起始刻度的角度，默认为 90 度，即圆心的正上方" },
+        "clockwise": { "type": "boolean", "description": "刻度增长是否按顺时针，默认顺时针" },
+        "type": { "enum": ["value", "category", "time", "log"], "description": "坐标轴类型" },
+        "boundaryGap": {
+          "oneOf": [
+            { "type": "boolean" },
+            {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ],
+          "description": "坐标轴两边留白策略"
+        },
+        "min": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "坐标轴刻度最小值"
+        },
+        "max": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "坐标轴刻度最大值"
+        },
+        "scale": { "type": "boolean", "description": "是否是脱离 0 值比例" },
+        "splitNumber": { "type": "number", "description": "坐标轴的分割段数" },
+        "minInterval": { "type": "number", "description": "自动计算的坐标轴最小间隔大小" },
+        "maxInterval": { "type": "number", "description": "自动计算的坐标轴最大间隔大小" },
+        "interval": { "type": "number", "description": "强制设置坐标轴分割间隔" },
+        "logBase": { "type": "number", "description": "对数轴的底数" },
+        "silent": { "type": "boolean", "description": "坐标轴是否是静态无法交互" },
+        "triggerEvent": { "type": "boolean", "description": "坐标轴的标签是否响应和触发鼠标事件" },
+        "axisLine": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示坐标轴轴线" },
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "坐标轴线样式" }
+          },
+          "description": "坐标轴轴线相关设置"
+        },
+        "axisTick": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示坐标轴刻度" },
+            "alignWithLabel": { "type": "boolean", "description": "类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐" },
+            "interval": {
+              "oneOf": [
+                { "type": "number" },
+                { "type": "string" },
+                { "type": "string", "format": "function-string" }
+              ],
+              "description": "坐标轴刻度的显示间隔"
+            },
+            "inside": { "type": "boolean", "description": "坐标轴刻度是否朝内" },
+            "length": { "type": "number", "description": "坐标轴刻度的长度" },
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "坐标轴刻度线样式" }
+          },
+          "description": "坐标轴刻度相关设置"
+        },
+        "axisLabel": {
+          "$ref": "#/definitions/XAXisOption/properties/axisLabel",
+          "description": "坐标轴刻度标签的相关设置"
+        },
+        "splitLine": {
+          "$ref": "#/definitions/XAXisOption/properties/splitLine",
+          "description": "坐标轴在 grid 区域中的分隔线"
+        },
+        "splitArea": {
+          "$ref": "#/definitions/XAXisOption/properties/splitArea",
+          "description": "坐标轴在 grid 区域中的分隔区域"
+        },
+        "data": {
+          "$ref": "#/definitions/XAXisOption/properties/data",
+          "description": "类目数据，在类目轴（type: 'category'）中有效"
+        },
+        "axisPointer": {
+          "$ref": "#/definitions/SingleAxisOption/properties/axisPointer",
+          "description": "坐标轴指示器配置"
+        },
+        "zlevel": { "type": "number", "description": "角度轴所有图形的 zlevel 值" },
+        "z": { "type": "number", "description": "角度轴组件的所有图形的z值" }
+      },
+      "description": "极坐标系的角度轴"
+    },
+    "ParallelCoordinateSystemOption": {
+      "type": "object",
+      "properties": {
+        "id": { "oneOf": [{ "type": "string" }, { "type": "number" }], "description": "组件 ID" },
+        "zlevel": { "type": "number", "description": "组件的所有图形的 zlevel 值" },
+        "z": { "type": "number", "description": "组件的所有图形的 z 值" },
+        "left": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器左侧的距离" },
+        "top": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器上侧的距离" },
+        "right": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器右侧的距离" },
+        "bottom": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器下侧的距离" },
+        "width": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件宽度" },
+        "height": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件高度" },
+        "layout": { "enum": ["horizontal", "vertical"], "description": "布局方式，可选值为：'horizontal'、'vertical'" },
+        "axisExpandable": { "type": "boolean", "description": "是否允许点击展开折叠 axis" },
+        "axisExpandCenter": { "type": "number", "description": "初始时以哪个轴为中心展开，默认为 0，即第一个轴" },
+        "axisExpandCount": { "type": "number", "description": "初始时有多少个轴处于展开状态，默认为 0" },
+        "axisExpandWidth": { "type": "number", "description": "展开状态的轴的间距，单位为像素" },
+        "axisExpandTriggerOn": { "enum": ["click", "mousemove"], "description": "触发展开的事件，可选为：'click' 和 'mousemove'" },
+        "parallelAxisDefault": {
+          "type": "object",
+          "description": "平行坐标系中每个坐标轴的默认配置，其中的属性会被 axis 中的同名属性覆盖"
+        },
+        "backgroundColor": { "$ref": "#/definitions/ZRColor", "description": "背景色，默认透明" },
+        "borderColor": { "$ref": "#/definitions/ZRColor", "description": "边框颜色" },
+        "borderWidth": { "type": "number", "description": "边框线宽" },
+        "tooltip": { "$ref": "#/definitions/TooltipOption", "description": "坐标系特定的 tooltip 设定" }
+      },
+      "description": "平行坐标系组件，用于展现高维数据"
+    },
+    "ParallelAxisOption": {
+      "type": "object",
+      "properties": {
+        "id": { "oneOf": [{ "type": "string" }, { "type": "number" }], "description": "组件 ID" },
+        "dim": { "type": "number", "description": "坐标轴的维度序号" },
+        "parallelIndex": { "type": "number", "description": "坐标轴所在的平行坐标系的索引，默认使用第一个平行坐标系" },
+        "realtime": { "type": "boolean", "description": "更改后是否实时刷新视图" },
+        "areaSelectStyle": {
+          "type": "object",
+          "properties": {
+            "width": { "type": "number", "description": "线条宽度" },
+            "borderWidth": { "type": "number", "description": "边框宽度" },
+            "borderColor": { "$ref": "#/definitions/ZRColor", "description": "边框颜色" },
+            "color": { "$ref": "#/definitions/ZRColor", "description": "填充色" },
+            "opacity": { "type": "number", "description": "透明度" }
+          },
+          "description": "区域选择样式"
+        },
+        "type": { "enum": ["value", "category", "time", "log"], "description": "坐标轴类型" },
+        "name": { "type": "string", "description": "坐标轴名称" },
+        "nameLocation": { "enum": ["start", "middle", "end"], "description": "坐标轴名称的位置" },
+        "nameTextStyle": { "$ref": "#/definitions/TextCommonOption", "description": "坐标轴名称的文字样式" },
+        "nameGap": { "type": "number", "description": "坐标轴名称与轴线之间的距离" },
+        "nameRotate": { "type": "number", "description": "坐标轴名字旋转，角度值" },
+        "inverse": { "type": "boolean", "description": "是否是反向坐标轴" },
+        "boundaryGap": {
+          "oneOf": [
+            { "type": "boolean" },
+            {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ],
+          "description": "坐标轴两边留白策略"
+        },
+        "min": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "坐标轴刻度最小值"
+        },
+        "max": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "坐标轴刻度最大值"
+        },
+        "scale": { "type": "boolean", "description": "是否是脱离 0 值比例" },
+        "splitNumber": { "type": "number", "description": "坐标轴的分割段数" },
+        "minInterval": { "type": "number", "description": "自动计算的坐标轴最小间隔大小" },
+        "maxInterval": { "type": "number", "description": "自动计算的坐标轴最大间隔大小" },
+        "interval": { "type": "number", "description": "强制设置坐标轴分割间隔" },
+        "logBase": { "type": "number", "description": "对数轴的底数" },
+        "silent": { "type": "boolean", "description": "坐标轴是否是静态无法交互" },
+        "triggerEvent": { "type": "boolean", "description": "坐标轴的标签是否响应和触发鼠标事件" },
+        "axisLine": {
+          "$ref": "#/definitions/XAXisOption/properties/axisLine",
+          "description": "坐标轴轴线相关设置"
+        },
+        "axisTick": {
+          "$ref": "#/definitions/XAXisOption/properties/axisTick",
+          "description": "坐标轴刻度相关设置"
+        },
+        "axisLabel": {
+          "$ref": "#/definitions/XAXisOption/properties/axisLabel",
+          "description": "坐标轴刻度标签的相关设置"
+        },
+        "data": {
+          "$ref": "#/definitions/XAXisOption/properties/data",
+          "description": "类目数据，在类目轴（type: 'category'）中有效"
+        }
+      },
+      "description": "平行坐标系中的坐标轴"
+    },
+    "CalendarOption": {
+      "type": "object",
+      "properties": {
+        "id": { "oneOf": [{ "type": "string" }, { "type": "number" }], "description": "组件 ID" },
+        "zlevel": { "type": "number", "description": "组件的所有图形的 zlevel 值" },
+        "z": { "type": "number", "description": "组件的所有图形的 z 值" },
+        "left": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器左侧的距离" },
+        "top": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器上侧的距离" },
+        "right": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器右侧的距离" },
+        "bottom": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器下侧的距离" },
+        "width": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件宽度" },
+        "height": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件高度" },
+        "range": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            {
+              "type": "array",
+              "items": { "oneOf": [{ "type": "number" }, { "type": "string" }] },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ],
+          "description": "日历坐标的范围"
+        },
+        "cellSize": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ],
+          "description": "日历每格框的大小，可设置单值 或数组 第一个元素是宽，第二个元素是高。支持设置自适应：auto, 默认为高宽均为20"
+        },
+        "orient": { "enum": ["horizontal", "vertical"], "description": "日历坐标的布局朝向" },
+        "splitLine": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示分隔线" },
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "分隔线样式" }
+          },
+          "description": "日历坐标中的分隔线样式"
+        },
+        "itemStyle": {
+          "$ref": "#/definitions/ItemStyleOption",
+          "description": "日历格的样式"
+        },
+        "dayLabel": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否在普通状态下显示标签" },
+            "firstDay": { "type": "number", "description": "一周从周几开始，默认从周日开始" },
+            "margin": { "type": "number", "description": "标签与轴线之间的距离" },
+            "position": { "enum": ["start", "end"], "description": "标签的位置" },
+            "nameMap": {
+              "oneOf": [
+                { "enum": ["EN", "ZH"] },
+                {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "minItems": 7,
+                  "maxItems": 7
+                }
+              ],
+              "description": "星期显示的map"
+            },
+            "color": { "$ref": "#/definitions/ZRColor", "description": "文字的颜色" },
+            "fontStyle": { "$ref": "#/definitions/ZRFontStyle", "description": "文字字体的风格" },
+            "fontWeight": { "$ref": "#/definitions/ZRFontWeight", "description": "文字字体的粗细" },
+            "fontFamily": { "type": "string", "description": "文字的字体系列" },
+            "fontSize": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "文字的字体大小" },
+            "align": { "enum": ["left", "center", "right"], "description": "文字水平对齐方式" },
+            "verticalAlign": { "enum": ["top", "middle", "bottom"], "description": "文字垂直对齐方式" }
+          },
+          "description": "星期标签配置项"
+        },
+        "monthLabel": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否在普通状态下显示标签" },
+            "margin": { "type": "number", "description": "标签与轴线之间的距离" },
+            "position": { "enum": ["start", "end"], "description": "标签的位置" },
+            "nameMap": {
+              "oneOf": [
+                { "enum": ["EN", "ZH"] },
+                {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "minItems": 12,
+                  "maxItems": 12
+                }
+              ],
+              "description": "月份显示的map"
+            },
+            "formatter": {
+              "oneOf": [
+                { "type": "string" },
+                { "type": "string", "format": "function-string" }
+              ],
+              "description": "月份格式化，默认为 {yyyy}-{MM}, 通过模板变量{MM}表示月份 (0-11, 0 代表 1 月)"
+            },
+            "color": { "$ref": "#/definitions/ZRColor", "description": "文字的颜色" },
+            "fontStyle": { "$ref": "#/definitions/ZRFontStyle", "description": "文字字体的风格" },
+            "fontWeight": { "$ref": "#/definitions/ZRFontWeight", "description": "文字字体的粗细" },
+            "fontFamily": { "type": "string", "description": "文字的字体系列" },
+            "fontSize": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "文字的字体大小" },
+            "align": { "enum": ["left", "center", "right"], "description": "文字水平对齐方式" },
+            "verticalAlign": { "enum": ["top", "middle", "bottom"], "description": "文字垂直对齐方式" }
+          },
+          "description": "月份标签配置项"
+        },
+        "yearLabel": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否在普通状态下显示标签" },
+            "margin": { "type": "number", "description": "标签与轴线之间的距离" },
+            "position": { "enum": ["top", "bottom", "left", "right"], "description": "标签的位置" },
+            "formatter": {
+              "oneOf": [
+                { "type": "string" },
+                { "type": "string", "format": "function-string" }
+              ],
+              "description": "年份格式化，默认为 {yyyy}, 通过模板变量{yyyy}表示年份"
+            },
+            "color": { "$ref": "#/definitions/ZRColor", "description": "文字的颜色" },
+            "fontStyle": { "$ref": "#/definitions/ZRFontStyle", "description": "文字字体的风格" },
+            "fontWeight": { "$ref": "#/definitions/ZRFontWeight", "description": "文字字体的粗细" },
+            "fontFamily": { "type": "string", "description": "文字的字体系列" },
+            "fontSize": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "文字的字体大小" },
+            "align": { "enum": ["left", "center", "right"], "description": "文字水平对齐方式" },
+            "verticalAlign": { "enum": ["top", "middle", "bottom"], "description": "文字垂直对齐方式" }
+          },
+          "description": "年份标签配置项"
+        },
+        "silent": { "type": "boolean", "description": "坐标轴是否是静态无法交互" }
+      },
+      "description": "日历坐标系组件"
+    },
+    "TooltipOption": {
+      "type": "object",
+      "properties": {
+        "show": { "type": "boolean", "description": "是否显示提示框组件" },
+        "trigger": { "enum": ["item", "axis", "none"], "description": "触发类型" },
+        "triggerOn": { "enum": ["mousemove", "click", "mousemove|click", "none"], "description": "提示框触发的条件" },
+        "alwaysShowContent": { "type": "boolean", "description": "是否永远显示提示框内容" },
+        "showContent": { "type": "boolean", "description": "是否显示提示框浮层" },
+        "showDelay": { "type": "number", "description": "浮层显示的延迟，单位为 ms" },
+        "hideDelay": { "type": "number", "description": "浮层隐藏的延迟，单位为 ms" },
+        "enterable": { "type": "boolean", "description": "鼠标是否可进入提示框浮层中" },
+        "confine": { "type": "boolean", "description": "是否将 tooltip 框限制在图表的区域内" },
+        "appendToBody": { "type": "boolean", "description": "是否将 tooltip 的 DOM 节点添加为 HTML 的 body 的子节点" },
+        "transitionDuration": { "type": "number", "description": "提示框浮层的移动动画过渡时间，单位是 s，设置为 0 的时候会紧跟着鼠标移动" },
+        "position": {
+          "oneOf": [
+            { "enum": ["inside", "top", "left", "right", "bottom"] },
+            {
+              "type": "array",
+              "items": { "oneOf": [{ "type": "string" }, { "type": "number" }] },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "提示框浮层的位置，默认不设置时位置会跟随鼠标的位置"
+        },
+        "formatter": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "提示框浮层内容格式器"
+        },
+        "valueFormatter": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "提示框浮层值的格式化方式"
+        },
+        "backgroundColor": { "$ref": "#/definitions/ZRColor", "description": "提示框浮层的背景颜色" },
+        "borderColor": { "$ref": "#/definitions/ZRColor", "description": "提示框浮层的边框颜色" },
+        "borderWidth": { "type": "number", "description": "提示框浮层的边框宽" },
+        "padding": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 1,
+              "maxItems": 4
+            }
+          ],
+          "description": "提示框浮层内边距"
+        },
+        "textStyle": {
+          "allOf": [{ "$ref": "#/definitions/TextCommonOption" }],
+          "properties": {
+            "color": { "$ref": "#/definitions/ZRColor", "description": "文字的颜色" },
+            "fontSize": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "文字的字体大小" }
+          },
+          "description": "提示框浮层的文本样式"
+        },
+        "extraCssText": { "type": "string", "description": "额外附加到浮层的 css 样式" },
+        "axisPointer": {
+          "type": "object",
+          "properties": {
+            "type": { "enum": ["line", "shadow", "none", "cross"], "description": "指示器类型" },
+            "axis": { "enum": ["auto", "x", "y", "radius", "angle"], "description": "指示器的坐标轴" },
+            "snap": { "type": "boolean", "description": "坐标轴指示器是否自动吸附到点上，默认自动判断" },
+            "z": { "type": "number", "description": "坐标轴指示器的 z 值，控制图形的前后顺序" },
+            "label": {
+              "type": "object",
+              "properties": {
+                "show": { "type": "boolean", "description": "是否显示文本标签" },
+                "precision": { "type": "number", "description": "文本标签中数值的小数点精度" },
+                "formatter": {
+                  "oneOf": [
+                    { "type": "string" },
+                    { "type": "string", "format": "function-string" }
+                  ],
+                  "description": "文本标签文字内容格式器"
+                },
+                "margin": { "type": "number", "description": "label 距离轴的距离" },
+                "color": { "$ref": "#/definitions/ZRColor", "description": "文字的颜色" },
+                "fontStyle": { "$ref": "#/definitions/ZRFontStyle", "description": "文字字体的风格" },
+                "fontWeight": { "$ref": "#/definitions/ZRFontWeight", "description": "文字字体的粗细" },
+                "fontFamily": { "type": "string", "description": "文字的字体系列" },
+                "fontSize": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "文字的字体大小" },
+                "lineHeight": { "type": "number", "description": "行高" },
+                "backgroundColor": {
+                  "oneOf": [
+                    { "$ref": "#/definitions/ZRColor" },
+                    { "enum": ["auto"] }
+                  ],
+                  "description": "文本标签的背景颜色，默认是和轴线一致"
+                },
+                "borderColor": { "$ref": "#/definitions/ZRColor", "description": "文本标签的边框颜色" },
+                "borderWidth": { "type": "number", "description": "文本标签的边框宽度" },
+                "shadowBlur": { "type": "number", "description": "图形阴影的模糊大小" },
+                "shadowColor": { "type": "string", "description": "阴影颜色" },
+                "shadowOffsetX": { "type": "number", "description": "阴影水平方向上的偏移距离" },
+                "shadowOffsetY": { "type": "number", "description": "阴影垂直方向上的偏移距离" },
+                "padding": {
+                  "oneOf": [
+                    { "type": "number" },
+                    {
+                      "type": "array",
+                      "items": { "type": "number" },
+                      "minItems": 1,
+                      "maxItems": 4
+                    }
+                  ],
+                  "description": "文本标签的内边距"
+                }
+              },
+              "description": "坐标轴指示器的文本标签"
+            },
+            "lineStyle": {
+              "$ref": "#/definitions/LineStyleOption",
+              "description": "line 类型的轴指示器的风格配置"
+            },
+            "shadowStyle": {
+              "type": "object",
+              "properties": {
+                "color": { "$ref": "#/definitions/ZRColor", "description": "阴影颜色" },
+                "opacity": { "type": "number", "description": "图形透明度" },
+                "shadowBlur": { "type": "number", "description": "图形阴影的模糊大小" },
+                "shadowColor": { "type": "string", "description": "阴影颜色" },
+                "shadowOffsetX": { "type": "number", "description": "阴影水平方向上的偏移距离" },
+                "shadowOffsetY": { "type": "number", "description": "阴影垂直方向上的偏移距离" }
+              },
+              "description": "shadow 类型的轴指示器的风格配置"
+            },
+            "crossStyle": {
+              "allOf": [{ "$ref": "#/definitions/LineStyleOption" }],
+              "description": "cross 类型的轴指示器的风格配置"
+            }
+          },
+          "description": "坐标轴指示器配置项"
+        },
+        "order": { "enum": ["seriesAsc", "seriesDesc", "valueAsc", "valueDesc"], "description": "提示框浮层排序方式" }
+      },
+      "description": "提示框组件"
+    },
+    "LegendOption": {
+      "type": "object",
+      "properties": {
+        "type": { "enum": ["plain", "scroll"], "description": "图例的类型" },
+        "id": { "oneOf": [{ "type": "string" }, { "type": "number" }], "description": "组件 ID" },
+        "show": { "type": "boolean", "description": "是否显示图例组件" },
+        "zlevel": { "type": "number", "description": "所有图形的 zlevel 值" },
+        "z": { "type": "number", "description": "组件的所有图形的z值" },
+        "left": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "图例组件离容器左侧的距离" },
+        "top": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "图例组件离容器上侧的距离" },
+        "right": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "图例组件离容器右侧的距离" },
+        "bottom": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "图例组件离容器下侧的距离" },
+        "width": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "图例组件的宽度" },
+        "height": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "图例组件的高度" },
+        "orient": { "enum": ["horizontal", "vertical"], "description": "图例列表的布局朝向" },
+        "align": { "enum": ["auto", "left", "right"], "description": "图例标记和文本的对齐方式" },
+        "padding": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 1,
+              "maxItems": 4
+            }
+          ],
+          "description": "图例内边距"
+        },
+        "itemGap": { "type": "number", "description": "图例每项之间的间隔" },
+        "itemWidth": { "type": "number", "description": "图例标记的图形宽度" },
+        "itemHeight": { "type": "number", "description": "图例标记的图形高度" },
+        "itemStyle": {
+          "$ref": "#/definitions/ItemStyleOption",
+          "description": "图例项的 icon 样式设置"
+        },
+        "lineStyle": {
+          "$ref": "#/definitions/LineStyleOption",
+          "description": "图例项中线条的样式设置，用于线性图例"
+        },
+        "symbolRotate": { "type": "number", "description": "图例项中图形的旋转角度" },
+        "formatter": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "用来格式化图例文本，支持字符串模板和回调函数两种形式"
+        },
+        "selectedMode": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "enum": ["single", "multiple"] }
+          ],
+          "description": "图例选择的模式，控制是否可以通过点击图例改变系列的显示状态"
+        },
+        "inactiveColor": { "$ref": "#/definitions/ZRColor", "description": "图例关闭时的颜色" },
+        "inactiveBorderColor": { "$ref": "#/definitions/ZRColor", "description": "图例关闭时的描边颜色" },
+        "inactiveBorderWidth": { "type": "number", "description": "图例关闭时的描边粗细" },
+        "selected": {
+          "type": "object",
+          "additionalProperties": { "type": "boolean" },
+          "description": "图例选中状态表"
+        },
+        "textStyle": {
+          "allOf": [{ "$ref": "#/definitions/TextCommonOption" }],
+          "properties": {
+            "width": { "type": "number", "description": "文本块的宽度" },
+            "height": { "type": "number", "description": "文本块的高度" },
+            "overflow": { "enum": ["none", "truncate", "break", "breakAll"], "description": "文字超出宽度是否截断或者换行" },
+            "ellipsis": { "type": "string", "description": "在 overflow 设为 'truncate' 的时候，可以通过该属性配置末尾显示的文本" }
+          },
+          "description": "图例文本样式"
+        },
+        "tooltip": {
+          "$ref": "#/definitions/TooltipOption",
+          "description": "图例的 tooltip 配置"
+        },
+        "icon": { "type": "string", "description": "图例项的 icon" },
+        "data": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "description": "图例项的名称" },
+                  "icon": { "type": "string", "description": "图例项的 icon" },
+                  "itemStyle": { "$ref": "#/definitions/ItemStyleOption", "description": "图例项的样式设置" },
+                  "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "图例项线条样式设置，用于线性图例" },
+                  "textStyle": { "$ref": "#/definitions/TextCommonOption", "description": "图例项的文本样式设置" }
+                }
+              }
+            ]
+          },
+          "description": "图例的数据数组"
+        },
+        "backgroundColor": { "$ref": "#/definitions/ZRColor", "description": "图例背景色" },
+        "borderColor": { "$ref": "#/definitions/ZRColor", "description": "图例的边框颜色" },
+        "borderWidth": { "type": "number", "description": "图例的边框线宽" },
+        "borderRadius": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 1,
+              "maxItems": 4
+            }
+          ],
+          "description": "圆角半径，单位px"
+        },
+        "shadowBlur": { "type": "number", "description": "图形阴影的模糊大小" },
+        "shadowColor": { "type": "string", "description": "阴影颜色" },
+        "shadowOffsetX": { "type": "number", "description": "阴影水平方向上的偏移距离" },
+        "shadowOffsetY": { "type": "number", "description": "阴影垂直方向上的偏移距离" },
+        "scrollDataIndex": { "type": "number", "description": "图例当前页的起始项的索引，适用于 type: 'scroll'" },
+        "pageButtonItemGap": { "type": "number", "description": "图例控制块中，按钮和页信息之间的间隔，单位为px，适用于 type: 'scroll'" },
+        "pageButtonGap": { "type": "number", "description": "图例控制块和图例项之间的间隔，单位为px，适用于 type: 'scroll'" },
+        "pageButtonPosition": { "enum": ["start", "end"], "description": "图例控制块的位置，适用于 type: 'scroll'" },
+        "pageFormatter": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "图例页信息的格式化器，适用于 type: 'scroll'"
+        },
+        "pageIcons": {
+          "type": "object",
+          "properties": {
+            "horizontal": {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "水平翻页时的图标，[previous page, next page]"
+            },
+            "vertical": {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "垂直翻页时的图标，[previous page, next page]"
+            }
+          },
+          "description": "翻页按钮的图标，适用于 type: 'scroll'"
+        },
+        "pageIconColor": { "$ref": "#/definitions/ZRColor", "description": "翻页按钮的颜色，适用于 type: 'scroll'" },
+        "pageIconInactiveColor": { "$ref": "#/definitions/ZRColor", "description": "翻页按钮不激活时（即翻页到头时）的颜色，适用于 type: 'scroll'" },
+        "pageIconSize": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ],
+          "description": "翻页按钮的大小，适用于 type: 'scroll'"
+        },
+        "pageTextStyle": {
+          "allOf": [{ "$ref": "#/definitions/TextCommonOption" }],
+          "description": "图例页信息的文字样式，适用于 type: 'scroll'"
+        },
+        "animation": { "type": "boolean", "description": "图例翻页是否使用动画，适用于 type: 'scroll'" },
+        "animationDurationUpdate": { "type": "number", "description": "图例翻页时的动画时长，适用于 type: 'scroll'" },
+        "emphasis": {
+          "type": "object",
+          "properties": {
+            "selectorLabel": {
+              "allOf": [{ "$ref": "#/definitions/TextCommonOption" }],
+              "description": "图例选择器中文本的样式，当鼠标悬浮在文字上时"
+            }
+          },
+          "description": "图例高亮时的配置"
+        },
+        "selector": {
+          "oneOf": [
+            { "type": "boolean" },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": { "enum": ["all", "inverse"], "description": "选择器类型" },
+                  "title": { "type": "string", "description": "标题文本" }
+                }
+              }
+            }
+          ],
+          "description": "图例组件中的选择器按钮"
+        },
+        "selectorLabel": {
+          "allOf": [{ "$ref": "#/definitions/TextCommonOption" }],
+          "description": "图例选择器中文本的样式"
+        },
+        "selectorPosition": { "enum": ["auto", "start", "end"], "description": "图例选择器的位置" },
+        "selectorItemGap": { "type": "number", "description": "图例选择器中按钮之间的间隔" },
+        "selectorButtonGap": { "type": "number", "description": "图例选择器和图例项之间的间隔" }
+      },
+      "description": "图例组件"
+    },
+    "DataZoomOption": {
+      "oneOf": [
+        { "$ref": "#/definitions/InsideDataZoomOption" },
+        { "$ref": "#/definitions/SliderDataZoomOption" }
+      ],
+      "description": "区域缩放组件"
+    },
+    "SliderDataZoomOption": {
+      "type": "object",
+      "properties": {
+        "type": { "enum": ["slider"], "description": "类型，必须为 slider" },
+        "id": { "oneOf": [{ "type": "string" }, { "type": "number" }], "description": "组件 ID" },
+        "show": { "type": "boolean", "description": "是否显示 dataZoom 组件" },
+        "backgroundColor": { "$ref": "#/definitions/ZRColor", "description": "组件的背景颜色" },
+        "dataBackground": {
+          "type": "object",
+          "properties": {
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "阴影的线条样式" },
+            "areaStyle": {
+              "type": "object",
+              "properties": {
+                "color": { "$ref": "#/definitions/ZRColor", "description": "填充的颜色" },
+                "opacity": { "type": "number", "description": "图形透明度" }
+              },
+              "description": "阴影的填充样式"
+            }
+          },
+          "description": "数据阴影的样式"
+        },
+        "selectedDataBackground": {
+          "type": "object",
+          "properties": {
+            "lineStyle": { "$ref": "#/definitions/LineStyleOption", "description": "阴影的线条样式" },
+            "areaStyle": {
+              "allOf": [{ "$ref": "#/definitions/AreaStyleOption" }],
+              "description": "阴影的填充样式"
+            }
+          },
+          "description": "选中部分数据阴影的样式"
+        },
+        "fillerColor": { "$ref": "#/definitions/ZRColor", "description": "选中范围的填充颜色" },
+        "borderColor": { "$ref": "#/definitions/ZRColor", "description": "边框颜色" },
+        "handleIcon": { "type": "string", "description": "手柄的图标样式" },
+        "handleSize": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "手柄的大小"
+        },
+        "handleStyle": {
+          "$ref": "#/definitions/ItemStyleOption",
+          "description": "手柄的样式配置"
+        },
+        "moveHandleIcon": { "type": "string", "description": "移动手柄的图标样式" },
+        "moveHandleSize": { "type": "number", "description": "移动手柄的大小" },
+        "moveHandleStyle": {
+          "$ref": "#/definitions/ItemStyleOption",
+          "description": "移动手柄的样式配置"
+        },
+        "labelPrecision": { "type": "number", "description": "label 格式化小数精度" },
+        "labelFormatter": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "label 格式化函数"
+        },
+        "showDetail": { "type": "boolean", "description": "是否显示 label" },
+        "showDataShadow": { "enum": ["auto", "always", "never"], "description": "是否在 dataZoom-slider 组件中显示数据阴影" },
+        "realtime": { "type": "boolean", "description": "拖动时，是否实时更新系列的视图" },
+        "textStyle": {
+          "allOf": [{ "$ref": "#/definitions/TextCommonOption" }],
+          "description": "文本样式"
+        },
+        "xAxisIndex": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" }
+            }
+          ],
+          "description": "设置 dataZoom-slider 组件控制的 x 轴"
+        },
+        "yAxisIndex": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" }
+            }
+          ],
+          "description": "设置 dataZoom-slider 组件控制的 y 轴"
+        },
+        "radiusAxisIndex": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" }
+            }
+          ],
+          "description": "设置 dataZoom-slider 组件控制的 radius 轴"
+        },
+        "angleAxisIndex": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" }
+            }
+          ],
+          "description": "设置 dataZoom-slider 组件控制的 angle 轴"
+        },
+        "filterMode": { "enum": ["filter", "weakFilter", "empty", "none"], "description": "数据过滤模式" },
+        "start": { "type": "number", "description": "数据窗口范围的起始百分比，范围是：0 ~ 100" },
+        "end": { "type": "number", "description": "数据窗口范围的结束百分比，范围是：0 ~ 100" },
+        "startValue": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "数据窗口范围的起始数值"
+        },
+        "endValue": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "数据窗口范围的结束数值"
+        },
+        "minSpan": { "type": "number", "description": "用于限制窗口大小的最小值（百分比值）" },
+        "maxSpan": { "type": "number", "description": "用于限制窗口大小的最大值（百分比值）" },
+        "minValueSpan": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "用于限制窗口大小的最小值（实际数值）"
+        },
+        "maxValueSpan": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "用于限制窗口大小的最大值（实际数值）"
+        },
+        "orient": { "enum": ["horizontal", "vertical"], "description": "布局方式是横还是竖" },
+        "zoomLock": { "type": "boolean", "description": "是否锁定选择区域（或叫做数据窗口）的大小" },
+        "throttle": { "type": "number", "description": "设置触发视图刷新的频率" },
+        "rangeMode": {
+          "type": "array",
+          "items": { "enum": ["value", "percent"] },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "range 的模式"
+        },
+        "zlevel": { "type": "number", "description": "组件的所有图形的 zlevel 值" },
+        "z": { "type": "number", "description": "组件的所有图形的z值" },
+        "left": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器左侧的距离" },
+        "top": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器上侧的距离" },
+        "right": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器右侧的距离" },
+        "bottom": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "组件离容器下侧的距离" },
+        "width": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "图例宽度" },
+        "height": { "oneOf": [{ "type": "number" }, { "type": "string" }], "description": "图例高度" },
+        "brushSelect": { "type": "boolean", "description": "是否支持在坐标系中进行刷选" },
+        "brushStyle": {
+          "allOf": [{ "$ref": "#/definitions/ItemStyleOption" }],
+          "description": "刷选时的样式"
+        },
+        "emphasis": {
+          "type": "object",
+          "properties": {
+            "handleStyle": {
+              "$ref": "#/definitions/ItemStyleOption",
+              "description": "手柄的样式配置"
+            },
+            "moveHandleStyle": {
+              "$ref": "#/definitions/ItemStyleOption",
+              "description": "移动手柄的样式配置"
+            }
+          },
+          "description": "高亮状态的样式"
+        }
+      },
+      "description": "滑动条型数据区域缩放组件"
+    },
+    "InsideDataZoomOption": {
+      "type": "object",
+      "properties": {
+        "type": { "enum": ["inside"], "description": "类型，必须为 inside" },
+        "id": { "oneOf": [{ "type": "string" }, { "type": "number" }], "description": "组件 ID" },
+        "disabled": { "type": "boolean", "description": "是否停止组件的功能" },
+        "xAxisIndex": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" }
+            }
+          ],
+          "description": "设置 dataZoom-inside 组件控制的 x 轴"
+        },
+        "yAxisIndex": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" }
+            }
+          ],
+          "description": "设置 dataZoom-inside 组件控制的 y 轴"
+        },
+        "radiusAxisIndex": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" }
+            }
+          ],
+          "description": "设置 dataZoom-inside 组件控制的 radius 轴"
+        },
+        "angleAxisIndex": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" }
+            }
+          ],
+          "description": "设置 dataZoom-inside 组件控制的 angle 轴"
+        },
+        "filterMode": { "enum": ["filter", "weakFilter", "empty", "none"], "description": "数据过滤模式" },
+        "start": { "type": "number", "description": "数据窗口范围的起始百分比，范围是：0 ~ 100" },
+        "end": { "type": "number", "description": "数据窗口范围的结束百分比，范围是：0 ~ 100" },
+        "startValue": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "数据窗口范围的起始数值"
+        },
+        "endValue": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "数据窗口范围的结束数值"
+        },
+        "minSpan": { "type": "number", "description": "用于限制窗口大小的最小值（百分比值）" },
+        "maxSpan": { "type": "number", "description": "用于限制窗口大小的最大值（百分比值）" },
+        "minValueSpan": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "用于限制窗口大小的最小值（实际数值）"
+        },
+        "maxValueSpan": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" }
+          ],
+          "description": "用于限制窗口大小的最大值（实际数值）"
+        },
+        "orient": { "enum": ["horizontal", "vertical", "orthogonal"], "description": "布局方式是横还是竖，或者是 'orthogonal'（走对角线方向）" },
+        "zoomLock": { "type": "boolean", "description": "是否锁定选择区域（或叫做数据窗口）的大小" },
+        "throttle": { "type": "number", "description": "设置触发视图刷新的频率" },
+        "rangeMode": {
+          "type": "array",
+          "items": { "enum": ["value", "percent"] },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "range 的模式"
+        },
+        "zoomOnMouseWheel": { "enum": [true, false, "shift", "ctrl", "alt"], "description": "如何触发缩放。可选值为：true：表示不按任何功能键，鼠标滚轮能触发缩放；false：表示鼠标滚轮不能触发缩放；'shift'：表示按住 shift 和鼠标滚轮能触发缩放；'ctrl'：表示按住 ctrl 和鼠标滚轮能触发缩放；'alt'：表示按住 alt 和鼠标滚轮能触发缩放" },
+        "moveOnMouseMove": { "enum": [true, false, "shift", "ctrl", "alt"], "description": "如何触发数据窗口平移。可选值为：true：表示不按任何功能键，鼠标滚轮能触发数据窗口平移；false：表示鼠标滚轮不能触发平移；'shift'：表示按住 shift 和鼠标滚轮能触发数据窗口平移；'ctrl'：表示按住 ctrl 和鼠标滚轮能触发数据窗口平移；'alt'：表示按住 alt 和鼠标滚轮能触发数据窗口平移" },
+        "moveOnMouseWheel": { "enum": [true, false, "shift", "ctrl", "alt"], "description": "如何触发数据窗口平移。可选值为：true：表示不按任何功能键，鼠标滚轮能触发数据窗口平移；false：表示鼠标滚轮不能触发平移；'shift'：表示按住 shift 和鼠标滚轮能触发数据窗口平移；'ctrl'：表示按住 ctrl 和鼠标滚轮能触发数据窗口平移；'alt'：表示按住 alt 和鼠标滚轮能触发数据窗口平移" },
+        "preventDefaultMouseMove": { "type": "boolean", "description": "是否阻止 mousemove 事件的默认行为" }
+      },
+      "description": "内置型数据区域缩放组件"
+    },
+    "VisualMapOption": {
+      "type": "object",
+      "properties": {
+        "mainType": { "enum": ["visualMap"], "description": "组件主类型" },
+        "show": { "type": "boolean", "description": "是否显示组件" },
+        "align": { "type": "string", "description": "对齐方式" },
+        "realtime": { "type": "boolean", "description": "是否实时更新" },
+        "seriesIndex": {
+          "oneOf": [
+            { "enum": ["all"] },
+            { "type": "number" },
+            { "type": "array", "items": { "type": "number" } }
+          ],
+          "description": "指定取哪个系列的数据，可以是一个系列的 index，也可以是系列的 id 或者name"
+        },
+        "min": { "type": "number", "description": "最小值，如果不设置 pieces，则必须设置" },
+        "max": { "type": "number", "description": "最大值，如果不设置 pieces，则必须设置" },
+        "dimension": { "type": "number", "description": "指定用数据的哪个维度，映射到视觉元素上" },
+        "inRange": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "定义 在选中范围中 的视觉元素"
+        },
+        "outOfRange": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "定义 在选中范围外 的视觉元素"
+        },
+        "controller": {
+          "type": "object",
+          "properties": {
+            "inRange": { "type": "object", "additionalProperties": true },
+            "outOfRange": { "type": "object", "additionalProperties": true }
+          },
+          "description": "视觉映射组件的控制器样式"
+        },
+        "target": {
+          "type": "object",
+          "properties": {
+            "inRange": { "type": "object", "additionalProperties": true },
+            "outOfRange": { "type": "object", "additionalProperties": true }
+          },
+          "description": "指定取哪个系列的数据用于视觉映射组件的依据"
+        },
+        "itemWidth": { "type": "number", "description": "图形的宽度" },
+        "itemHeight": { "type": "number", "description": "图形的高度" },
+        "inverse": { "type": "boolean", "description": "是否反转" },
+        "orient": { "enum": ["horizontal", "vertical"], "description": "方向" },
+        "backgroundColor": { "$ref": "#/definitions/ZRColor", "description": "背景色" },
+        "contentColor": { "$ref": "#/definitions/ZRColor", "description": "内容颜色" },
+        "inactiveColor": { "$ref": "#/definitions/ZRColor", "description": "非激活状态的颜色" },
+        "padding": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 4,
+              "maxItems": 4
+            }
+          ],
+          "description": "内边距，单位px，默认各方向内边距为5"
+        },
+        "textGap": { "type": "number", "description": "文字与图形之间的距离" },
+        "precision": { "type": "number", "description": "数据展示的小数精度" },
+        "color": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "颜色（已废弃，使用 inRange.color 代替）"
+        },
+        "formatter": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "string", "format": "function-string" }
+          ],
+          "description": "标签的格式化工具，支持字符串模板和回调函数两种形式"
+        },
+        "text": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "两端的文本，如 ['高', '低']"
+        },
+        "textStyle": {
+          "$ref": "#/definitions/TextCommonOption",
+          "description": "文本样式"
+        }
+      }
+    },
+    "ContinousVisualMapOption": {
+      "allOf": [
+        { "$ref": "#/definitions/VisualMapOption" },
+        {
+          "type": "object",
+          "properties": {
+            "align": { "enum": ["auto", "left", "right", "top", "bottom"], "description": "对齐方式" },
+            "calculable": { "type": "boolean", "description": "是否显示拖拽用的手柄" },
+            "range": {
+              "type": "array",
+              "items": { "type": "number" },
+              "description": "指定手柄对应数值的位置。range 应在 min max 范围内"
+            },
+            "hoverLink": { "type": "boolean", "description": "打开 hoverLink 功能时，鼠标悬浮到 visualMap 上会联动到图表" },
+            "hoverLinkDataSize": { "type": "number", "description": "打开 hoverLink 功能时的高亮范围" },
+            "hoverLinkOnHandle": { "type": "boolean", "description": "是否在手柄被悬浮时触发悬浮联动" },
+            "handleIcon": { "type": "string", "description": "手柄的图标样式" },
+            "handleSize": {
+              "oneOf": [
+                { "type": "string" },
+                { "type": "number" }
+              ],
+              "description": "手柄的大小，可以是绝对值或百分比值"
+            },
+            "handleStyle": {
+              "type": "object",
+              "description": "手柄的样式配置"
+            },
+            "indicatorIcon": { "type": "string", "description": "指示器的图标样式" },
+            "indicatorSize": {
+              "oneOf": [
+                { "type": "string" },
+                { "type": "number" }
+              ],
+              "description": "指示器的大小，可以是绝对值或百分比值"
+            },
+            "indicatorStyle": {
+              "type": "object",
+              "description": "指示器的样式配置"
+            },
+            "emphasis": {
+              "type": "object",
+              "properties": {
+                "handleStyle": { "type": "object", "description": "强调时的手柄样式" }
+              },
+              "description": "高亮的样式"
+            }
+          }
+        }
+      ],
+      "description": "连续型视觉映射组件"
+    },
+    "PiecewiseVisualMapOption": {
+      "allOf": [
+        { "$ref": "#/definitions/VisualMapOption" },
+        {
+          "type": "object",
+          "properties": {
+            "align": { "enum": ["auto", "left", "right"], "description": "对齐方式" },
+            "minOpen": { "type": "boolean", "description": "界限值的开闭状态，false 为闭，true 为开" },
+            "maxOpen": { "type": "boolean", "description": "界限值的开闭状态，false 为闭，true 为开" },
+            "itemWidth": { "type": "number", "description": "图形的宽度，即颜色块的宽度" },
+            "itemHeight": { "type": "number", "description": "图形的高度，即每个小区块的高度" },
+            "itemSymbol": { "type": "string", "description": "图形的形状，支持ECharts内置形状，或自定义图形" },
+            "pieces": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "min": { "type": "number", "description": "范围的起始值（包含）" },
+                  "max": { "type": "number", "description": "范围的结束值（包含）" },
+                  "lt": { "type": "number", "description": "小于这个值" },
+                  "gt": { "type": "number", "description": "大于这个值" },
+                  "lte": { "type": "number", "description": "小于等于这个值" },
+                  "gte": { "type": "number", "description": "大于等于这个值" },
+                  "value": { "type": "number", "description": "单个值" },
+                  "label": { "type": "string", "description": "文本标签" },
+                  "color": { "$ref": "#/definitions/ZRColor", "description": "区块的颜色" }
+                },
+                "additionalProperties": true,
+                "description": "自定义分段"
+              },
+              "description": "自定义的分段"
+            },
+            "categories": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "指定分段的类目，通常用于与 legend 结合使用"
+            },
+            "splitNumber": { "type": "number", "description": "对于连续型数据，自动平均切分成几段" },
+            "selected": {
+              "type": "object",
+              "additionalProperties": { "type": "boolean" },
+              "description": "指定哪些系列被选中，默认所有系列被选中"
+            },
+            "selectedMode": {
+              "oneOf": [
+                { "enum": ["multiple", "single"] },
+                { "type": "boolean" }
+              ],
+              "description": "选择模式，可选值为：'multiple'（多选）、'single'（单选）"
+            },
+            "showLabel": { "type": "boolean", "description": "是否显示分段的文本标签" },
+            "itemGap": { "type": "number", "description": "每个图元之间的间隔" },
+            "hoverLink": { "type": "boolean", "description": "打开 hoverLink 功能时，鼠标悬浮到 visualMap 上会联动到图表" }
+          }
+        }
+      ],
+      "description": "分段型视觉映射组件"
+    },
+    "TimelineOption": {
+      "type": "object",
+      "properties": {
+        "show": { "type": "boolean", "description": "是否显示时间轴组件" },
+        "type": { "enum": ["slider"], "description": "时间轴类型" },
+        "axisType": { "enum": ["category", "time", "value"], "description": "时间轴的轴类型" },
+        "currentIndex": { "type": "number", "description": "当前选中项是哪项，即选中哪个时间" },
+        "autoPlay": { "type": "boolean", "description": "是否自动播放" },
+        "playInterval": { "type": "number", "description": "自动播放时播放的时间间隔，单位毫秒（ms）" },
+        "rewind": { "type": "boolean", "description": "是否反向播放" },
+        "loop": { "type": "boolean", "description": "是否循环播放" },
+        "realtime": { "type": "boolean", "description": "拖动圆点的时候是否实时更新视图" },
+        "controlPosition": { "enum": ["left", "right"], "description": "控制按钮的位置" },
+        "zlevel": { "type": "number", "description": "所有图形的 zlevel 值" },
+        "z": { "type": "number", "description": "组件的所有图形的z值" },
+        "left": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "组件离容器左侧的距离"
+        },
+        "top": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "组件离容器上侧的距离"
+        },
+        "right": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "组件离容器右侧的距离"
+        },
+        "bottom": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ],
+          "description": "组件离容器下侧的距离"
+        },
+        "padding": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": { "type": "number" },
+              "minItems": 4,
+              "maxItems": 4
+            }
+          ],
+          "description": "内边距，单位px，默认各方向内边距为5"
+        },
+        "orient": { "enum": ["vertical", "horizontal"], "description": "轴的方向" },
+        "inverse": { "type": "boolean", "description": "刻度增长方向" },
+        "symbol": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "string", "format": "image://url" },
+            { "type": "string", "format": "path://" }
+          ],
+          "description": "标记的图形"
+        },
+        "symbolSize": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 }
+          ],
+          "description": "标记的大小"
+        },
+        "symbolRotate": { "type": "number", "description": "标记的旋转角度" },
+        "symbolKeepAspect": { "type": "boolean", "description": "是否在缩放时保持该图形的长宽比" },
+        "symbolOffset": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" }
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "标记相对于原本位置的偏移"
+        },
+        "lineStyle": {
+          "type": "object",
+          "properties": {
+            "color": { "$ref": "#/definitions/ZRColor", "description": "线的颜色" },
+            "width": { "type": "number", "description": "线宽" },
+            "type": { "$ref": "#/definitions/ZRLineType", "description": "线的类型" },
+            "opacity": { "type": "number", "description": "线的透明度" }
+          },
+          "description": "时间轴轴线样式"
+        },
+        "label": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示标签" },
+            "interval": {
+              "oneOf": [
+                { "type": "string" },
+                { "type": "number" }
+              ],
+              "description": "标签的间隔"
+            },
+            "rotate": { "type": "number", "description": "标签旋转的角度" },
+            "formatter": {
+              "oneOf": [
+                { "type": "string" },
+                { "type": "string", "format": "function-string" }
+              ],
+              "description": "刻度标签的内容格式器"
+            },
+            "color": { "$ref": "#/definitions/ZRColor", "description": "文字的颜色" },
+            "fontStyle": { "$ref": "#/definitions/ZRFontStyle", "description": "文字字体的风格" },
+            "fontWeight": { "$ref": "#/definitions/ZRFontWeight", "description": "文字字体的粗细" },
+            "fontFamily": { "type": "string", "description": "文字的字体系列" },
+            "fontSize": { "type": "number", "description": "文字的字体大小" },
+            "align": { "enum": ["left", "center", "right"], "description": "文字水平对齐方式" },
+            "verticalAlign": { "enum": ["top", "middle", "bottom"], "description": "文字垂直对齐方式" },
+            "lineHeight": { "type": "number", "description": "文字的行高" },
+            "backgroundColor": { "$ref": "#/definitions/ZRColor", "description": "文字块背景色" },
+            "borderColor": { "$ref": "#/definitions/ZRColor", "description": "文字块边框颜色" },
+            "borderWidth": { "type": "number", "description": "文字块边框宽度" },
+            "borderRadius": {
+              "oneOf": [
+                { "type": "number" },
+                {
+                  "type": "array",
+                  "items": { "type": "number" },
+                  "minItems": 4,
+                  "maxItems": 4
+                }
+              ],
+              "description": "文字块的圆角半径"
+            },
+            "padding": {
+              "oneOf": [
+                { "type": "number" },
+                {
+                  "type": "array",
+                  "items": { "type": "number" },
+                  "minItems": 4,
+                  "maxItems": 4
+                }
+              ],
+              "description": "文字块的内边距"
+            },
+            "shadowColor": { "$ref": "#/definitions/ZRColor", "description": "文字块的阴影颜色" },
+            "shadowBlur": { "type": "number", "description": "文字块的阴影长度" },
+            "shadowOffsetX": { "type": "number", "description": "文字块的阴影 X 偏移" },
+            "shadowOffsetY": { "type": "number", "description": "文字块的阴影 Y 偏移" },
+            "width": { "type": "number", "description": "文字块的宽度" },
+            "height": { "type": "number", "description": "文字块的高度" },
+            "textBorderColor": { "$ref": "#/definitions/ZRColor", "description": "文字本身的描边颜色" },
+            "textBorderWidth": { "type": "number", "description": "文字本身的描边宽度" },
+            "textBorderType": { "$ref": "#/definitions/ZRLineType", "description": "文字本身的描边类型" },
+            "textShadowColor": { "$ref": "#/definitions/ZRColor", "description": "文字本身的阴影颜色" },
+            "textShadowBlur": { "type": "number", "description": "文字本身的阴影长度" },
+            "textShadowOffsetX": { "type": "number", "description": "文字本身的阴影 X 偏移" },
+            "textShadowOffsetY": { "type": "number", "description": "文字本身的阴影 Y 偏移" }
+          },
+          "description": "轴标签样式"
+        },
+        "itemStyle": {
+          "type": "object",
+          "properties": {
+            "color": { "$ref": "#/definitions/ZRColor", "description": "图形的颜色" },
+            "borderColor": { "$ref": "#/definitions/ZRColor", "description": "图形的描边颜色" },
+            "borderWidth": { "type": "number", "description": "描边线宽" },
+            "borderType": { "$ref": "#/definitions/ZRLineType", "description": "描边类型" },
+            "shadowBlur": { "type": "number", "description": "图形阴影的模糊大小" },
+            "shadowColor": { "$ref": "#/definitions/ZRColor", "description": "阴影颜色" },
+            "shadowOffsetX": { "type": "number", "description": "阴影水平方向上的偏移距离" },
+            "shadowOffsetY": { "type": "number", "description": "阴影垂直方向上的偏移距离" },
+            "opacity": { "type": "number", "description": "图形透明度" }
+          },
+          "description": "时间轴符号的样式设置"
+        },
+        "checkpointStyle": {
+          "type": "object",
+          "properties": {
+            "symbol": {
+              "oneOf": [
+                { "type": "string" },
+                { "type": "string", "format": "image://url" },
+                { "type": "string", "format": "path://" }
+              ],
+              "description": "标记的图形"
+            },
+            "symbolSize": {
+              "oneOf": [
+                { "type": "number" },
+                { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 }
+              ],
+              "description": "标记的大小"
+            },
+            "symbolRotate": { "type": "number", "description": "标记的旋转角度" },
+            "symbolKeepAspect": { "type": "boolean", "description": "是否在缩放时保持该图形的长宽比" },
+            "symbolOffset": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "type": "string" },
+                  { "type": "number" }
+                ]
+              },
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "标记相对于原本位置的偏移"
+            },
+            "color": { "$ref": "#/definitions/ZRColor", "description": "图形的颜色" },
+            "borderColor": { "$ref": "#/definitions/ZRColor", "description": "图形的描边颜色" },
+            "borderWidth": { "type": "number", "description": "描边线宽" },
+            "borderType": { "$ref": "#/definitions/ZRLineType", "description": "描边类型" },
+            "shadowBlur": { "type": "number", "description": "图形阴影的模糊大小" },
+            "shadowColor": { "$ref": "#/definitions/ZRColor", "description": "阴影颜色" },
+            "shadowOffsetX": { "type": "number", "description": "阴影水平方向上的偏移距离" },
+            "shadowOffsetY": { "type": "number", "description": "阴影垂直方向上的偏移距离" },
+            "opacity": { "type": "number", "description": "图形透明度" },
+            "animation": { "type": "boolean", "description": "是否开启动画" },
+            "animationDuration": { "type": "number", "description": "初始动画的时长" },
+            "animationEasing": { "$ref": "#/definitions/ZREasing", "description": "初始动画的缓动效果" }
+          },
+          "description": "当前项的图形样式"
+        },
+        "controlStyle": {
+          "type": "object",
+          "properties": {
+            "show": { "type": "boolean", "description": "是否显示控制按钮" },
+            "showPlayBtn": { "type": "boolean", "description": "是否显示播放按钮" },
+            "showPrevBtn": { "type": "boolean", "description": "是否显示上一项按钮" },
+            "showNextBtn": { "type": "boolean", "description": "是否显示下一项按钮" },
+            "itemSize": { "type": "number", "description": "控制按钮的尺寸" },
+            "itemGap": { "type": "number", "description": "控制按钮之间的间隔" },
+            "position": { "enum": ["left", "right", "top", "bottom"], "description": "控制按钮的位置" },
+            "playIcon": { "type": "string", "description": "播放按钮的图标" },
+            "stopIcon": { "type": "string", "description": "停止按钮的图标" },
+            "prevIcon": { "type": "string", "description": "上一项按钮的图标" },
+            "nextIcon": { "type": "string", "description": "下一项按钮的图标" },
+            "color": { "$ref": "#/definitions/ZRColor", "description": "控制按钮的颜色" },
+            "borderColor": { "$ref": "#/definitions/ZRColor", "description": "控制按钮的边框颜色" },
+            "borderWidth": { "type": "number", "description": "控制按钮的边框宽度" },
+            "borderType": { "$ref": "#/definitions/ZRLineType", "description": "控制按钮的边框类型" },
+            "shadowBlur": { "type": "number", "description": "控制按钮的阴影长度" },
+            "shadowColor": { "$ref": "#/definitions/ZRColor", "description": "控制按钮的阴影颜色" },
+            "shadowOffsetX": { "type": "number", "description": "控制按钮的阴影X偏移" },
+            "shadowOffsetY": { "type": "number", "description": "控制按钮的阴影Y偏移" },
+            "opacity": { "type": "number", "description": "控制按钮的透明度" }
+          },
+          "description": "控制按钮样式"
+        },
+        "emphasis": {
+          "type": "object",
+          "properties": {
+            "lineStyle": { "type": "object", "description": "高亮状态下的轴线样式" },
+            "label": { "type": "object", "description": "高亮状态下的轴标签样式" },
+            "itemStyle": { "type": "object", "description": "高亮状态下的时间点样式" },
+            "checkpointStyle": { "type": "object", "description": "高亮状态下的当前项样式" },
+            "controlStyle": { "type": "object", "description": "高亮状态下的控制按钮样式" }
+          },
+          "description": "高亮状态下的样式设置"
+        },
+        "data": {
+          "type": "array",
+          "description": "时间轴的数据，每一项代表一个时间点"
+        }
+      },
+      "description": "时间轴组件选项"
+    },
+    "TimelineSliderOption": {
+      "allOf": [
+        { "$ref": "#/definitions/TimelineOption" },
+        {
+          "type": "object",
+          "properties": {
+            "backgroundColor": { "$ref": "#/definitions/ZRColor", "description": "背景颜色" },
+            "borderColor": { "$ref": "#/definitions/ZRColor", "description": "边框颜色" },
+            "borderWidth": { "type": "number", "description": "边框宽度" },
+            "tooltip": { "$ref": "#/definitions/TooltipOption", "description": "提示框配置" }
+          }
+        }
+      ],
+      "description": "时间轴滑块组件选项"
+    }
+  }
+}
